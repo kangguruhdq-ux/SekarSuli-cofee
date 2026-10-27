@@ -77,13 +77,7 @@ export function MenuExplorer() {
 
   const handleAddToReservation = (itemName: string) => {
     if (typeof window !== "undefined") {
-      window.dispatchEvent(
-        new CustomEvent("add-reservation-item", { detail: itemName })
-      );
-      const resEl = document.getElementById("reservasi");
-      if (resEl) {
-        resEl.scrollIntoView({ behavior: "smooth" });
-      }
+      window.location.href = `/reservasi?item=${encodeURIComponent(itemName)}`;
     }
   };
 
@@ -576,9 +570,9 @@ function LedgerItemRow({
             animate={{ opacity: 1, height: "auto", marginTop: 6 }}
             exit={{ opacity: 0, height: 0, marginTop: 0 }}
             transition={{ duration: 0.28, ease: "easeInOut" }}
-            className="overflow-hidden"
+            className="overflow-hidden w-full"
           >
-            <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#C5A059] shadow-md my-1 flex flex-col sm:flex-row gap-4 sm:gap-5 items-center sm:items-start text-left relative">
+            <div className="p-4 rounded-2xl bg-[#FFFDF9] border-2 border-[#C5A059] shadow-md my-1.5 flex flex-col gap-3 text-left relative w-full overflow-hidden">
               {/* Close Button top-right */}
               <button
                 type="button"
@@ -586,35 +580,29 @@ function LedgerItemRow({
                   e.stopPropagation();
                   onToggle();
                 }}
-                className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#FAF5ED] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] flex items-center justify-center text-xs transition-colors border border-[#C5A059]/40"
+                className="absolute top-3 right-3 z-20 w-6 h-6 rounded-full bg-[#FAF5ED] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] flex items-center justify-center text-xs transition-colors border border-[#C5A059]/40"
                 aria-label="Tutup"
               >
                 ✕
               </button>
 
-              {/* Photo Showcase with Gold Frame */}
-              <div className="relative w-full sm:w-44 aspect-[4/3] rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/60 shadow-sm bg-[#0B1B3D]">
-                <Image
-                  src={item.image || "/images/sekarsuli-heritage-ambiance.jpg"}
-                  alt={item.name}
-                  fill
-                  sizes="200px"
-                  className="object-cover"
-                />
-                <div className="absolute top-2 left-2">
-                  <span className="px-2 py-0.5 rounded-full bg-[#0B1B3D]/90 border border-[#C5A059] text-[#C5A059] text-[9px] font-cinzel font-bold tracking-wider uppercase">
-                    {item.category}
-                  </span>
+              {/* Top Row: Thumbnail + Name + Category Badges */}
+              <div className="flex items-start gap-3.5 pr-7">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/60 shadow-xs bg-[#0B1B3D]">
+                  <Image
+                    src={item.image || "/images/sekarsuli-heritage-ambiance.jpg"}
+                    alt={item.name}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                  />
                 </div>
-              </div>
 
-              {/* Information & Action Buttons right in place */}
-              <div className="flex-1 flex flex-col justify-between w-full">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-[#0B1B3D]">
-                      {item.name}
-                    </h4>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                    <span className="px-2 py-0.5 rounded-full bg-[#0B1B3D] border border-[#C5A059]/50 text-[#C5A059] text-[9px] font-cinzel font-bold tracking-wider uppercase">
+                      {item.category}
+                    </span>
                     {item.isGajahSignature && (
                       <span className="px-2 py-0.5 rounded-full bg-[#C5A059] text-[#0B1B3D] text-[9px] font-cinzel font-bold tracking-wider uppercase">
                         SIGNATURE
@@ -622,40 +610,41 @@ function LedgerItemRow({
                     )}
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#605A55] font-light leading-relaxed mb-4">
-                    {item.description ||
-                      "Racikan istimewa khas Sekarsuli Coffee & Masakan Jawa. Menggunakan rempah alami dan bahan berkualitas di Ndalem Sekarsuli, Banguntapan, Bantul."}
-                  </p>
+                  <h4 className="font-cinzel text-base sm:text-lg font-bold text-[#0B1B3D] leading-snug">
+                    {item.name}
+                  </h4>
                 </div>
+              </div>
 
-                {/* Practical Direct Action Buttons */}
-                <div className="pt-3 border-t border-[#C5A059]/25 flex flex-wrap items-center gap-2.5">
-                  {/* Button 1: Add to Reservation Form */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onAddToReservation();
-                    }}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-xs font-cinzel font-bold tracking-editorial uppercase transition-all shadow-sm"
-                  >
-                    <CalendarPlus className="w-3.5 h-3.5 text-[#C5A059]" />
-                    <span>PESAN DI FORM RESERVASI</span>
-                  </button>
+              {/* Description Row */}
+              <p className="text-xs text-[#605A55] font-light leading-relaxed">
+                {item.description ||
+                  "Racikan istimewa khas Sekarsuli Coffee & Masakan Jawa. Menggunakan rempah alami dan bahan berkualitas di Ndalem Sekarsuli, Banguntapan, Bantul."}
+              </p>
 
-                  {/* Button 2: Quick WhatsApp Inquire */}
-                  <a
-                    href={`https://wa.me/${whatsappNumber}?text=${quickWaMessage}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-cinzel font-bold tracking-editorial uppercase transition-all shadow-sm"
-                  >
-                    <MessageCircle className="w-3.5 h-3.5 text-emerald-200" />
-                    <span>PESAN CEPAT WA</span>
-                    <ExternalLink className="w-3 h-3 text-emerald-200" />
-                  </a>
-                </div>
+              {/* Practical Direct Action Buttons — Grid to avoid any clipping */}
+              <div className="pt-2.5 border-t border-[#C5A059]/25 grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
+                {/* Button 1: Dedicated Booking Page */}
+                <a
+                  href={`/reservasi?item=${encodeURIComponent(item.name)}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center"
+                >
+                  <CalendarPlus className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
+                  <span className="truncate">PESAN DI RESERVASI</span>
+                </a>
+
+                {/* Button 2: Quick WhatsApp */}
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${quickWaMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
+                  <span className="truncate">PESAN VIA WHATSAPP</span>
+                </a>
               </div>
             </div>
           </motion.div>

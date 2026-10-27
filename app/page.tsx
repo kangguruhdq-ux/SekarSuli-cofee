@@ -2,7 +2,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { HeroSection } from "@/components/HeroSection";
 import { StatementSection } from "@/components/StatementSection";
 import { MenuExplorer } from "@/components/MenuExplorer";
-import { ReservationSection } from "@/components/ReservationSection";
+import { ReservationHomeCTA } from "@/components/ReservationHomeCTA";
 import { StorySection } from "@/components/StorySection";
 import { AtmosphereGallery } from "@/components/AtmosphereGallery";
 import { CraftPhilosophySection } from "@/components/CraftPhilosophySection";
@@ -19,7 +19,7 @@ export default function HomePage() {
         <HeroSection />
         <StatementSection />
         <MenuExplorer />
-        <ReservationSection />
+        <ReservationHomeCTA />
         <StorySection />
         <AtmosphereGallery />
         <CraftPhilosophySection />

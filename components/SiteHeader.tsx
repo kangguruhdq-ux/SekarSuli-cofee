@@ -21,54 +21,57 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
 
-interface NavItem {
-  href: string;
-  label: string;
-  subtitle: string;
-  icon: typeof Home;
-  isHighlight?: boolean;
-}
+// Streamlined, breathable desktop navigation links (No duplicate booking link in text list)
+const DESKTOP_NAV_LINKS = [
+  { href: "/#hero", label: "BERANDA" },
+  { href: "/#statement", label: "FILOSOFI" },
+  { href: "/#menu", label: "BUKU MENU" },
+  { href: "/#story", label: "KISAH" },
+  { href: "/#atmosphere", label: "SUASANA JOGLO" },
+  { href: "/#location", label: "LOKASI" },
+];
 
-const NAV_LINKS: NavItem[] = [
+// Rich mobile drawer links with icons and subtitles
+const MOBILE_NAV_LINKS = [
   {
-    href: "#hero",
+    href: "/#hero",
     label: "BERANDA",
     subtitle: "Halaman Utama & Nilai Pusaka",
     icon: Home,
   },
   {
-    href: "#statement",
+    href: "/#statement",
     label: "FILOSOFI",
     subtitle: "Merawat Rasa & Menjaga Tradisi",
     icon: Sparkles,
   },
   {
-    href: "#menu",
+    href: "/#menu",
     label: "BUKU MENU",
     subtitle: "44 Kudapan, Kopi & Wedangan Khas",
     icon: UtensilsCrossed,
   },
   {
-    href: "#reservasi",
-    label: "RESERVASI",
-    subtitle: "Booking Meja & Pre-Order Menu",
+    href: "/reservasi",
+    label: "RESERVASI & BOOKING",
+    subtitle: "Booking Meja & Pilih Menu Lengkap",
     icon: CalendarCheck,
     isHighlight: true,
   },
   {
-    href: "#story",
+    href: "/#story",
     label: "KISAH",
     subtitle: "Identitas Ndalem Sekarsuli",
     icon: BookOpen,
   },
   {
-    href: "#atmosphere",
+    href: "/#atmosphere",
     label: "SUASANA JOGLO",
     subtitle: "Pesona Pendopo & Panggung Akustik",
     icon: Camera,
   },
   {
-    href: "#location",
+    href: "/#location",
     label: "LOKASI",
     subtitle: "Jl. Wonosari KM 8, Banguntapan",
     icon: MapPin,
@@ -112,20 +115,19 @@ export function SiteHeader() {
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
             ? "bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#C5A059]/25 py-3.5 sm:py-4 shadow-2xl"
-            : "bg-gradient-to-b from-[#071229]/95 via-[#071229]/75 to-transparent py-4 sm:py-6"
+            : "bg-gradient-to-b from-[#071229]/95 via-[#071229]/75 to-transparent py-4 sm:py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between gap-4 lg:gap-8">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between gap-6 xl:gap-12">
             {/* Logo Brand with Ivory Royal Medallion for 100% Contrast */}
             <Link
-              href="#hero"
+              href="/#hero"
               aria-label="Sekarsuli Coffee Beranda"
-              className="group focus:outline-none"
+              className="group focus:outline-none shrink-0"
             >
-              <div className="flex items-center gap-3">
-                {/* Ivory background medallion ensures the navy elephant silhouette & golden flower pop with high contrast */}
-                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-[0_0_15px_rgba(197,160,89,0.35)] ring-1 ring-[#C5A059]/40 p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+              <div className="flex items-center gap-3.5">
+                <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-[0_0_15px_rgba(197,160,89,0.35)] ring-1 ring-[#C5A059]/40 p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
                   <Image
                     src="/images/logo-elephant-transparent.png"
                     alt="Logo Sekarsuli Coffee"
@@ -136,55 +138,41 @@ export function SiteHeader() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-cinzel font-bold tracking-editorial uppercase leading-none text-sm sm:text-base text-[#FAF5ED] group-hover:text-[#C5A059] transition-colors">
+                  <span className="font-cinzel font-bold tracking-editorial uppercase leading-none text-sm sm:text-base text-[#FAF5ED] group-hover:text-[#C5A059] transition-colors whitespace-nowrap">
                     {siteConfig.brand}
                   </span>
-                  <span className="tracking-wide-editorial uppercase font-sans mt-1 text-[9px] sm:text-[10px] text-[#C5A059] font-medium">
+                  <span className="tracking-wide-editorial uppercase font-sans mt-1 text-[9px] sm:text-[10px] text-[#C5A059] font-medium whitespace-nowrap">
                     COFFEE &amp; MASAKAN JAWA
                   </span>
                 </div>
               </div>
             </Link>
 
-            {/* Desktop Navigation Links */}
+            {/* Desktop Navigation Links — Spacious, Breathing, No Wrap */}
             <nav
               aria-label="Navigasi Utama"
-              className="hidden lg:flex items-center gap-6 xl:gap-8"
+              className="hidden lg:flex items-center gap-7 xl:gap-10"
             >
-              {NAV_LINKS.map((link) => (
+              {DESKTOP_NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[11px] xl:text-xs font-cinzel font-medium tracking-editorial uppercase transition-all duration-200 relative group py-2 ${
-                    link.isHighlight
-                      ? "text-[#C5A059] font-bold"
-                      : "text-[#FAF5ED]/80 hover:text-[#C5A059]"
-                  }`}
+                  className="text-xs font-cinzel font-medium tracking-[0.2em] uppercase text-[#FAF5ED]/80 hover:text-[#C5A059] transition-all duration-200 relative group py-2 whitespace-nowrap"
                 >
-                  <span className="flex items-center gap-1.5">
-                    {link.isHighlight && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059] animate-pulse" />
-                    )}
-                    {link.label}
-                  </span>
-                  <span
-                    className={`absolute bottom-0 left-0 h-[1.5px] bg-[#C5A059] transition-all duration-300 ${
-                      link.isHighlight ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                  <span>{link.label}</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#C5A059] transition-all duration-300 group-hover:w-full" />
                 </Link>
               ))}
             </nav>
 
-            {/* Desktop Right CTA Action Buttons */}
-            <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-              {/* Quick WhatsApp Booking CTA */}
+            {/* Desktop Right CTA Action Button — Dedicated Booking Page Link */}
+            <div className="flex items-center gap-3 shrink-0">
               <Link
-                href="#reservasi"
-                className="hidden sm:inline-flex items-center gap-2 text-[11px] xl:text-xs font-cinzel font-bold tracking-editorial uppercase px-4 sm:px-5 py-2.5 rounded-full border border-[#C5A059] text-[#0B1B3D] bg-[#C5A059] hover:bg-[#DFBA75] hover:border-[#DFBA75] transition-all duration-300 shadow-md hover:shadow-lg"
+                href="/reservasi"
+                className="hidden sm:inline-flex items-center gap-2 text-xs font-cinzel font-bold tracking-wider uppercase px-5 py-2.5 rounded-full border border-[#C5A059] text-[#0B1B3D] bg-[#C5A059] hover:bg-[#DFBA75] hover:border-[#DFBA75] transition-all duration-300 shadow-md hover:shadow-lg whitespace-nowrap"
               >
                 <CalendarCheck className="w-3.5 h-3.5 text-[#0B1B3D]" />
-                <span>BOOKING MEJA</span>
+                <span>BOOKING RESERVASI</span>
               </Link>
 
               {/* Mobile Hamburger Button */}
@@ -278,7 +266,7 @@ export function SiteHeader() {
                   </span>
                 </div>
 
-                {NAV_LINKS.map((link, idx) => {
+                {MOBILE_NAV_LINKS.map((link, idx) => {
                   const Icon = link.icon;
                   return (
                     <motion.div
@@ -333,12 +321,12 @@ export function SiteHeader() {
               <div className="relative z-10 p-5 border-t border-[#C5A059]/30 bg-[#0B1B3D] flex flex-col gap-3">
                 {/* Primary CTA: Reservasi Meja & Menu */}
                 <Link
-                  href="#reservasi"
+                  href="/reservasi"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#C5A059] text-[#0B1B3D] text-xs font-cinzel font-bold tracking-editorial uppercase shadow-lg hover:bg-[#DFBA75] transition-all"
                 >
                   <CalendarCheck className="w-4 h-4 text-[#0B1B3D]" />
-                  <span>BOOKING MEJA &amp; PILIH MENU</span>
+                  <span>HALAMAN BOOKING &amp; PILIH MENU</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </Link>
 
