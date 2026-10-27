@@ -13,7 +13,6 @@ import {
   ExternalLink,
   Camera,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   MENU_ITEMS,
   MenuItem,
@@ -568,20 +567,23 @@ function LedgerItemRow({
       </div>
 
       {/* =========================================================================
-          IN-PLACE EXPANDED CARD (Directly below the clicked item, NO SCROLLING UP)
+          IN-PLACE EXPANDED CARD (Silky Smooth Native Hardware-Accelerated Accordion)
          ========================================================================= */}
-      <AnimatePresence initial={false}>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{
-              height: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
-              opacity: { duration: 0.15, ease: "easeOut" },
-            }}
-            style={{ willChange: "height, opacity" }}
-            className="overflow-hidden w-full pt-1.5"
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isExpanded
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!isExpanded}
+      >
+        <div className="overflow-hidden min-h-0">
+          <div
+            className={`pt-2 pb-1.5 w-full transform transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              isExpanded
+                ? "translate-y-0 opacity-100"
+                : "-translate-y-2 opacity-0"
+            }`}
           >
             <div className="p-4 rounded-2xl bg-[#FFFDF9] border-2 border-[#C5A059] shadow-md mb-2 flex flex-col gap-3 text-left relative w-full overflow-hidden">
               {/* Close Button top-right */}
@@ -658,9 +660,9 @@ function LedgerItemRow({
                 </a>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
