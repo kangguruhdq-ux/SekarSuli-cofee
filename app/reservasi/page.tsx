@@ -216,16 +216,14 @@ function ReservasiContent() {
     e.preventDefault();
     setSubmitted(true);
 
-    // Smooth scroll to top of confirmation card
+    // Smooth scroll to top of confirmation review card
     if (typeof window !== "undefined") {
       const cardEl = document.getElementById("reservation-card");
       if (cardEl) {
         cardEl.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
-
-    // Auto open WhatsApp with zero asterisks clean format
-    handleSendWhatsApp();
+    // Tidak langsung membuka WA, arahkan pengguna meninjau data terlebih dahulu
   };
 
   const handleCopySummary = async () => {
@@ -340,15 +338,15 @@ function ReservasiContent() {
                 </div>
 
                 <span className="text-xs font-cinzel font-semibold tracking-wide uppercase text-[#8C6D37]">
-                  ❖ STATUS RESERVASI SIAP ❖
+                  ❖ TINJAU RINCIAN RESERVASI ❖
                 </span>
 
                 <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#0B1B3D] mt-1 mb-2">
-                  Formulir Berhasil Dibuat
+                  Rincian Reservasi Anda
                 </h2>
 
                 <p className="text-xs sm:text-sm text-[#605A55] max-w-md mx-auto mb-6 font-light">
-                  WhatsApp resmi Sekarsuli telah dibuka otomatis. Jika chat belum muncul di layar Anda, klik tombol hijau di bawah ini.
+                  Silakan periksa kembali rincian di bawah ini. Jika sudah yakin dan sesuai, klik tombol hijau di bawah untuk mengirim ke WhatsApp resmi Sekarsuli.
                 </p>
 
                 {/* Summary Box */}
@@ -407,7 +405,7 @@ function ReservasiContent() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-cinzel font-bold text-xs tracking-editorial uppercase shadow-lg hover:shadow-xl transition-all"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>BUKA WHATSAPP LAGI</span>
+                    <span>KIRIM RESERVASI KE WHATSAPP</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
 
@@ -538,7 +536,7 @@ function ReservasiContent() {
                               (e.target as HTMLInputElement).showPicker?.();
                             } catch {}
                           }}
-                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/60 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs cursor-pointer [color-scheme:light]"
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/60 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs cursor-pointer [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:pointer-events-none"
                         />
                         <button
                           type="button"
@@ -855,7 +853,7 @@ function ReservasiContent() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#0B1B3D] hover:bg-[#C5A059] text-[#FAF5ED] hover:text-[#0B1B3D] font-cinzel font-bold text-xs tracking-editorial uppercase transition-all duration-300 shadow-xl hover:scale-105"
                   >
                     <Sparkles className="w-4 h-4 text-[#C5A059]" />
-                    <span>KIRIM RESERVASI KE WHATSAPP</span>
+                    <span>LANJUT KE TINJAUAN RESERVASI</span>
                   </button>
                 </motion.div>
               </form>

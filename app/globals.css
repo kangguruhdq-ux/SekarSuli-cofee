@@ -37,6 +37,16 @@
     outline-offset: 3px;
     border-radius: 2px;
   }
+
+  /* Hide native browser calendar icon to avoid double icons with custom UI */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+  }
 }
 
 @layer utilities {
