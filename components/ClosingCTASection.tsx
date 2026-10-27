@@ -33,13 +33,13 @@ export function ClosingCTASection() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-[#C5A059] bg-[#071229] shadow-[0_0_25px_rgba(197,160,89,0.3)] ring-1 ring-[#C5A059]/40 p-2.5 flex items-center justify-center mx-auto">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-[#C5A059] bg-[#FAF5ED] shadow-[0_0_25px_rgba(197,160,89,0.45)] ring-2 ring-[#C5A059]/40 p-2.5 flex items-center justify-center mx-auto">
             <Image
               src="/images/logo-elephant-transparent.png"
               alt="Logo Sekarsuli"
               width={64}
               height={64}
-              className="object-contain"
+              className="object-contain filter drop-shadow-sm"
             />
           </div>
         </motion.div>
@@ -91,10 +91,10 @@ export function ClosingCTASection() {
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <Link
-            href="#location"
+            href="#reservasi"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#C5A059] text-[#071229] text-xs font-cinzel font-bold tracking-editorial uppercase hover:bg-[#DFBA75] transition-all shadow-xl"
           >
-            <span>PETUNJUK KUNJUNGAN</span>
+            <span>RESERVASI &amp; BOOKING MEJA</span>
             <ArrowUpRight className="w-4 h-4" />
           </Link>
 
@@ -103,6 +103,13 @@ export function ClosingCTASection() {
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#C5A059]/50 text-[#FAF5ED] bg-[#071229]/60 backdrop-blur-sm text-xs font-cinzel font-semibold tracking-editorial uppercase hover:border-[#C5A059] hover:text-[#C5A059] transition-all"
           >
             <span>KATALOG BUKU MENU</span>
+          </Link>
+
+          <Link
+            href="#location"
+            className="inline-flex items-center gap-2 px-7 py-4 rounded-full border border-white/20 text-[#FAF5ED]/80 hover:text-white hover:border-white/50 text-xs font-cinzel tracking-editorial uppercase transition-all"
+          >
+            <span>PANDUAN LOKASI</span>
           </Link>
         </motion.div>
       </div>

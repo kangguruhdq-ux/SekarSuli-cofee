@@ -37,9 +37,8 @@ export interface SiteConfig {
     instagramHandle: string;
   };
   contact: {
-    // Nomor WhatsApp hanya dicantumkan bila telah diverifikasi oleh pemilik usaha.
-    // Jika string kosong, tombol dan trigger WhatsApp tidak akan dimunculkan ke publik.
     whatsappNumber: string;
+    whatsappDisplay?: string;
     whatsappMessage?: string;
   };
 }
@@ -54,7 +53,7 @@ export const siteConfig: SiteConfig = {
     "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di Sekarsuli.",
   heroHeadline: "Merawat Rasa, Menjaga Tradisi.",
   heroDescription:
-    "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di Sekarsuli.",
+    "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di kawasan Ndalem Sekarsuli, Banguntapan, Bantul.",
   story: {
     eyebrow: "PENGALAMAN & NILAI",
     headline: "Perjumpaan Rasa Nusantara dan Teduhnya Joglo Jawa",
@@ -106,9 +105,10 @@ export const siteConfig: SiteConfig = {
     instagramHandle: "@sekarsulicoffee",
   },
   contact: {
-    // Tetap kosong sampai pemilik memberikan nomor telepon resmi terverifikasi
-    whatsappNumber: "",
+    // Nomor WhatsApp resmi Ndalem Sekarsuli (format internasional tanpa tanda plus)
+    whatsappNumber: "6287830228170",
+    whatsappDisplay: "0878-3022-8170",
     whatsappMessage:
-      "Halo Sekarsuli Coffee, saya ingin bertanya tentang menu dan kunjungan.",
+      "Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya tentang menu dan reservasi kunjungan.",
   },
 };

@@ -192,7 +192,7 @@ export function VisitSection() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-800 text-white text-xs font-cinzel font-semibold tracking-editorial uppercase hover:bg-emerald-700 transition-colors"
                   >
-                    <span>WhatsApp</span>
+                    <span>WhatsApp: {contact.whatsappDisplay || "0878-3022-8170"}</span>
                   </a>
                 )}
               </div>

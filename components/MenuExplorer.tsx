@@ -2,20 +2,34 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { Search, Sparkles, X, Eye, ExternalLink } from "lucide-react";
+import {
+  Search,
+  Sparkles,
+  ChevronDown,
+  ChevronUp,
+  MessageCircle,
+  CalendarPlus,
+  X,
+  ExternalLink,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MENU_ITEMS,
   MenuItem,
   TOTAL_MENU_COUNT,
 } from "@/lib/menu-data";
+import { siteConfig } from "@/lib/site-config";
 
-type BoardFilter = "SEMUA" | "SNACK & MINUMAN" | "COFFEE & NON COFFEE" | "REFRESHING & TEA";
+type BoardFilter =
+  | "SEMUA"
+  | "SNACK & MINUMAN"
+  | "COFFEE & NON COFFEE"
+  | "REFRESHING & TEA";
 
 export function MenuExplorer() {
   const [boardFilter, setBoardFilter] = useState<BoardFilter>("SEMUA");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
 
   // Group items exactly matching brochure layout
   const snackItems = useMemo(
@@ -57,6 +71,24 @@ export function MenuExplorer() {
     );
   }, [searchQuery]);
 
+  const toggleExpand = (id: string) => {
+    setExpandedItemId((prev) => (prev === id ? null : id));
+  };
+
+  const handleAddToReservation = (itemName: string) => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("add-reservation-item", { detail: itemName })
+      );
+      const resEl = document.getElementById("reservasi");
+      if (resEl) {
+        resEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const whatsappNumber = siteConfig.contact.whatsappNumber || "6287830228170";
+
   return (
     <section
       id="menu"
@@ -86,6 +118,7 @@ export function MenuExplorer() {
           <p className="mt-3 text-xs sm:text-sm text-[#FAF5ED]/70 font-light max-w-lg mx-auto">
             Disusun dalam format kartu menu pusaka khas Jawa, menyajikan seluruh
             44 racikan hidangan kopi, wedangan rempah, dan kudapan tradisional.
+            Klik salah satu menu untuk melihat foto dan memesan langsung.
           </p>
         </div>
 
@@ -174,13 +207,13 @@ export function MenuExplorer() {
 
           {/* Top Board Header */}
           <div className="relative z-10 flex flex-col items-center text-center pb-8 mb-8 border-b border-[#C5A059]/30">
-            {/* Elephant Silhouette */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 relative flex items-center justify-center">
+            {/* Elephant Silhouette in Ivory Medallion */}
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 rounded-full bg-[#FAF5ED] border-2 border-[#C5A059] shadow-[0_0_15px_rgba(197,160,89,0.3)] ring-1 ring-[#C5A059]/40 p-2 relative flex items-center justify-center">
               <Image
                 src="/images/logo-elephant-transparent.png"
                 alt="Logo Sekarsuli Gajah"
-                width={70}
-                height={70}
+                width={60}
+                height={60}
                 className="object-contain filter drop-shadow-sm"
               />
             </div>
@@ -222,10 +255,13 @@ export function MenuExplorer() {
               {searchedItems.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {searchedItems.map((item) => (
-                    <LedgerRow
+                    <LedgerItemRow
                       key={item.id}
                       item={item}
-                      onSelect={() => setSelectedItem(item)}
+                      isExpanded={expandedItemId === item.id}
+                      onToggle={() => toggleExpand(item.id)}
+                      onAddToReservation={() => handleAddToReservation(item.name)}
+                      whatsappNumber={whatsappNumber}
                     />
                   ))}
                 </div>
@@ -238,7 +274,7 @@ export function MenuExplorer() {
           ) : (
             /* 2-Column Classic Ledger Layout */
             <div className="relative z-10">
-              {/* BOARD 1: SNACK & MINUMAN (Matches the brochure exactly!) */}
+              {/* BOARD 1: SNACK & MINUMAN (Matches brochure) */}
               {(boardFilter === "SEMUA" || boardFilter === "SNACK & MINUMAN") && (
                 <div className="mb-14">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 relative">
@@ -263,16 +299,21 @@ export function MenuExplorer() {
 
                       <div className="space-y-1">
                         {snackItems.map((item) => (
-                          <LedgerRow
+                          <LedgerItemRow
                             key={item.id}
                             item={item}
-                            onSelect={() => setSelectedItem(item)}
+                            isExpanded={expandedItemId === item.id}
+                            onToggle={() => toggleExpand(item.id)}
+                            onAddToReservation={() =>
+                              handleAddToReservation(item.name)
+                            }
+                            whatsappNumber={whatsappNumber}
                           />
                         ))}
                       </div>
                     </div>
 
-                    {/* Column 2: MINUMAN */}
+                    {/* Column 2: MINUMAN & TRADITIONAL */}
                     <div className="flex flex-col">
                       <div className="flex justify-center mb-6">
                         <div className="px-7 py-2 rounded-full bg-[#0B1B3D] border-2 border-[#C5A059] shadow-md flex items-center justify-center">
@@ -284,10 +325,15 @@ export function MenuExplorer() {
 
                       <div className="space-y-1">
                         {minumanItems.map((item) => (
-                          <LedgerRow
+                          <LedgerItemRow
                             key={item.id}
                             item={item}
-                            onSelect={() => setSelectedItem(item)}
+                            isExpanded={expandedItemId === item.id}
+                            onToggle={() => toggleExpand(item.id)}
+                            onAddToReservation={() =>
+                              handleAddToReservation(item.name)
+                            }
+                            whatsappNumber={whatsappNumber}
                           />
                         ))}
                       </div>
@@ -296,11 +342,13 @@ export function MenuExplorer() {
                 </div>
               )}
 
-              {/* BOARD 2: COFFEE & NON COFFEE */}
-              {(boardFilter === "SEMUA" || boardFilter === "COFFEE & NON COFFEE") && (
-                <div className="mb-14 pt-10 border-t-2 border-dashed border-[#C5A059]/40">
+              {/* BOARD 2: COFFEE, NON COFFEE & REFRESHING */}
+              {(boardFilter === "SEMUA" ||
+                boardFilter === "COFFEE & NON COFFEE" ||
+                boardFilter === "REFRESHING & TEA") && (
+                <div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 relative">
-                    {/* Center Divider */}
+                    {/* Center Ornate Vertical Divider on Desktop */}
                     <div className="hidden lg:flex absolute left-1/2 top-4 bottom-4 -translate-x-1/2 flex-col items-center justify-between pointer-events-none">
                       <div className="w-[1px] h-full bg-[#C5A059]/40 relative">
                         <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-[#FAF5ED] border border-[#C5A059] flex items-center justify-center text-[#8C6D37] text-xs">
@@ -321,59 +369,73 @@ export function MenuExplorer() {
 
                       <div className="space-y-1">
                         {coffeeItems.map((item) => (
-                          <LedgerRow
+                          <LedgerItemRow
                             key={item.id}
                             item={item}
-                            onSelect={() => setSelectedItem(item)}
+                            isExpanded={expandedItemId === item.id}
+                            onToggle={() => toggleExpand(item.id)}
+                            onAddToReservation={() =>
+                              handleAddToReservation(item.name)
+                            }
+                            whatsappNumber={whatsappNumber}
                           />
                         ))}
                       </div>
                     </div>
 
-                    {/* Column 2: NON COFFEE */}
-                    <div className="flex flex-col">
-                      <div className="flex justify-center mb-6">
-                        <div className="px-7 py-2 rounded-full bg-[#0B1B3D] border-2 border-[#C5A059] shadow-md flex items-center justify-center">
-                          <span className="font-cinzel text-sm sm:text-base font-bold tracking-[0.25em] text-[#FAF5ED] uppercase">
-                            NON COFFEE
-                          </span>
+                    {/* Column 2: NON COFFEE & REFRESHING TEA */}
+                    <div className="flex flex-col space-y-8">
+                      {/* NON COFFEE Sub-section */}
+                      <div>
+                        <div className="flex justify-center mb-6">
+                          <div className="px-7 py-2 rounded-full bg-[#0B1B3D] border-2 border-[#C5A059] shadow-md flex items-center justify-center">
+                            <span className="font-cinzel text-sm sm:text-base font-bold tracking-[0.25em] text-[#FAF5ED] uppercase">
+                              NON COFFEE
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          {nonCoffeeItems.map((item) => (
+                            <LedgerItemRow
+                              key={item.id}
+                              item={item}
+                              isExpanded={expandedItemId === item.id}
+                              onToggle={() => toggleExpand(item.id)}
+                              onAddToReservation={() =>
+                                handleAddToReservation(item.name)
+                              }
+                              whatsappNumber={whatsappNumber}
+                            />
+                          ))}
                         </div>
                       </div>
 
-                      <div className="space-y-1">
-                        {nonCoffeeItems.map((item) => (
-                          <LedgerRow
-                            key={item.id}
-                            item={item}
-                            onSelect={() => setSelectedItem(item)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+                      {/* REFRESHING, TEA & OTHER Sub-section */}
+                      <div className="pt-4 border-t border-[#C5A059]/30">
+                        <div className="flex justify-center mb-6">
+                          <div className="px-6 py-2 rounded-full bg-[#0B1B3D] border-2 border-[#C5A059] shadow-md flex items-center justify-center">
+                            <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.2em] text-[#FAF5ED] uppercase">
+                              REFRESHING, TEA &amp; OTHER
+                            </span>
+                          </div>
+                        </div>
 
-              {/* BOARD 3: REFRESHING, TEA & OTHER */}
-              {(boardFilter === "SEMUA" || boardFilter === "REFRESHING & TEA") && (
-                <div className="pt-10 border-t-2 border-dashed border-[#C5A059]/40">
-                  <div className="max-w-2xl mx-auto flex flex-col">
-                    <div className="flex justify-center mb-6">
-                      <div className="px-7 py-2 rounded-full bg-[#0B1B3D] border-2 border-[#C5A059] shadow-md flex items-center justify-center">
-                        <span className="font-cinzel text-sm sm:text-base font-bold tracking-[0.25em] text-[#FAF5ED] uppercase">
-                          REFRESHING &amp; TEA
-                        </span>
+                        <div className="space-y-1">
+                          {refreshingTeaItems.map((item) => (
+                            <LedgerItemRow
+                              key={item.id}
+                              item={item}
+                              isExpanded={expandedItemId === item.id}
+                              onToggle={() => toggleExpand(item.id)}
+                              onAddToReservation={() =>
+                                handleAddToReservation(item.name)
+                              }
+                              whatsappNumber={whatsappNumber}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      {refreshingTeaItems.map((item) => (
-                        <LedgerRow
-                          key={item.id}
-                          item={item}
-                          onSelect={() => setSelectedItem(item)}
-                        />
-                      ))}
                     </div>
                   </div>
                 </div>
@@ -405,146 +467,200 @@ export function MenuExplorer() {
         <div className="mt-8 text-center text-xs text-[#FAF5ED]/60 font-light flex items-center justify-center gap-3">
           <span>❖ Terdaftar {TOTAL_MENU_COUNT} menu resmi Sekarsuli Coffee &amp; Masakan Jawa</span>
           <span>•</span>
-          <span>Klik salah satu menu untuk melihat foto &amp; rincian</span>
+          <span>Klik salah satu menu untuk melihat foto &amp; memesan tepat di tempat</span>
         </div>
       </div>
-
-      {/* =========================================================================
-          INTERACTIVE PHOTO MODAL (Opens on item click)
-         ========================================================================= */}
-      <AnimatePresence>
-        {selectedItem && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Rincian Menu ${selectedItem.name}`}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.3 }}
-              className="relative w-full max-w-lg bg-[#FAF5ED] text-[#1B2430] rounded-3xl overflow-hidden shadow-2xl border-2 border-[#C5A059]"
-            >
-              {/* Close Button */}
-              <button
-                type="button"
-                onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] flex items-center justify-center transition-colors shadow-md"
-                aria-label="Tutup pratinjau"
-              >
-                <X className="w-5 h-5 stroke-[2]" />
-              </button>
-
-              {/* Photo */}
-              <div className="relative aspect-[16/10] w-full bg-[#0B1B3D]">
-                <Image
-                  src={
-                    selectedItem.image ||
-                    "/images/sekarsuli-heritage-ambiance.jpg"
-                  }
-                  alt={selectedItem.name}
-                  fill
-                  sizes="500px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-4">
-                  <span className="px-3 py-1 rounded-full bg-[#0B1B3D] border border-[#C5A059] text-[#C5A059] text-[10px] font-cinzel font-semibold tracking-editorial uppercase shadow-sm">
-                    {selectedItem.category}
-                  </span>
-                </div>
-              </div>
-
-              {/* Info Content */}
-              <div className="p-6 sm:p-8">
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <h4 className="font-cinzel text-2xl font-bold text-[#0B1B3D]">
-                    {selectedItem.name}
-                  </h4>
-                  {selectedItem.isGajahSignature && (
-                    <span className="px-2.5 py-1 rounded-full bg-[#C5A059] text-[#0B1B3D] text-[10px] font-bold tracking-editorial uppercase">
-                      IKON GAJAH
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-sm text-[#605A55] leading-relaxed mt-2 font-light">
-                  {selectedItem.description ||
-                    `Sajian istimewa dari dapur Sekarsuli Coffee & Masakan Jawa di Ndalem Sekarsuli, diracik dengan ketulusan cita rasa nusantara.`}
-                </p>
-
-                <div className="mt-6 pt-4 border-t border-[#C5A059]/30 flex items-center justify-between text-xs text-[#8C6D37]">
-                  <span className="font-cinzel font-semibold uppercase tracking-wider">
-                    Sekarsuli • Jl. Wonosari KM 8
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedItem(null)}
-                    className="px-4 py-2 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-xs font-cinzel font-semibold tracking-editorial uppercase transition-all"
-                  >
-                    Tutup
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
 
-// Ledger Row Component replicating the exact brochure entry
-function LedgerRow({
+// Ledger Item Component with IN-PLACE EXPANSION right where clicked
+function LedgerItemRow({
   item,
-  onSelect,
+  isExpanded,
+  onToggle,
+  onAddToReservation,
+  whatsappNumber,
 }: {
   item: MenuItem;
-  onSelect: () => void;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onAddToReservation: () => void;
+  whatsappNumber: string;
 }) {
+  const quickWaMessage = encodeURIComponent(
+    `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu *${item.name}* (${item.category}) untuk kunjungan saya di Ndalem Sekarsuli.`
+  );
+
   return (
-    <div
-      onClick={onSelect}
-      className="group flex items-center justify-between py-2 sm:py-2.5 px-2 rounded-lg hover:bg-[#F5EFEB] transition-all cursor-pointer relative"
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          onSelect();
-        }
-      }}
-    >
-      {/* Left Item Name & Diamond */}
-      <div className="flex items-center gap-2.5 shrink-0 z-10 bg-[#FAF5ED] group-hover:bg-[#F5EFEB] pr-2 transition-colors">
-        <span className="text-[#C5A059] text-xs group-hover:scale-125 transition-transform">
-          ❖
-        </span>
-        <span className="font-cinzel text-sm sm:text-base font-semibold text-[#0B1B3D] group-hover:text-[#8C6D37] transition-colors">
-          {item.name}
-        </span>
-        {item.image && (
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-[#C5A059] flex items-center gap-0.5 ml-1">
-            <Eye className="w-3 h-3" />
+    <div className="flex flex-col transition-all duration-200">
+      {/* Clickable Ledger Row */}
+      <div
+        onClick={onToggle}
+        className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 rounded-xl transition-all cursor-pointer relative select-none ${
+          isExpanded
+            ? "bg-[#EFE6D8] border border-[#C5A059]/80 shadow-sm"
+            : "hover:bg-[#F5EFEB] border border-transparent"
+        }`}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isExpanded}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onToggle();
+          }
+        }}
+      >
+        {/* Left Item Name & Diamond */}
+        <div className="flex items-center gap-2.5 shrink-0 z-10 pr-2">
+          <span
+            className={`text-xs transition-transform duration-200 ${
+              isExpanded
+                ? "text-[#0B1B3D] scale-125"
+                : "text-[#C5A059] group-hover:scale-125"
+            }`}
+          >
+            ❖
           </span>
+          <span
+            className={`font-cinzel text-sm sm:text-base font-semibold transition-colors ${
+              isExpanded
+                ? "text-[#0B1B3D] font-bold"
+                : "text-[#0B1B3D] group-hover:text-[#8C6D37]"
+            }`}
+          >
+            {item.name}
+          </span>
+          {item.isGajahSignature && (
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-[#0B1B3D] text-[#C5A059] text-[9px] font-cinzel font-bold uppercase tracking-wider ml-1">
+              GAJAH
+            </span>
+          )}
+        </div>
+
+        {/* Dotted / Dashed Gold Hairline Leader Line */}
+        <div className="flex-grow border-b border-dotted border-[#C5A059]/60 mx-1" />
+
+        {/* Right Details & Accordion Indicator */}
+        <div className="shrink-0 z-10 pl-2 flex items-center gap-2">
+          {item.description ? (
+            <span className="hidden sm:inline text-[11px] text-[#605A55] font-light italic max-w-[130px] truncate">
+              {item.description}
+            </span>
+          ) : null}
+
+          <div
+            className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+              isExpanded
+                ? "bg-[#0B1B3D] text-[#FAF5ED]"
+                : "bg-transparent text-[#8C6D37] group-hover:bg-[#FAF5ED]"
+            }`}
+          >
+            {isExpanded ? (
+              <ChevronUp className="w-3.5 h-3.5 stroke-[2.5]" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          IN-PLACE EXPANDED CARD (Directly below the clicked item, NO SCROLLING UP)
+         ========================================================================= */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+            animate={{ opacity: 1, height: "auto", marginTop: 6 }}
+            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+            transition={{ duration: 0.28, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#C5A059] shadow-md my-1 flex flex-col sm:flex-row gap-4 sm:gap-5 items-center sm:items-start text-left relative">
+              {/* Close Button top-right */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggle();
+                }}
+                className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#FAF5ED] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] flex items-center justify-center text-xs transition-colors border border-[#C5A059]/40"
+                aria-label="Tutup"
+              >
+                ✕
+              </button>
+
+              {/* Photo Showcase with Gold Frame */}
+              <div className="relative w-full sm:w-44 aspect-[4/3] rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/60 shadow-sm bg-[#0B1B3D]">
+                <Image
+                  src={item.image || "/images/sekarsuli-heritage-ambiance.jpg"}
+                  alt={item.name}
+                  fill
+                  sizes="200px"
+                  className="object-cover"
+                />
+                <div className="absolute top-2 left-2">
+                  <span className="px-2 py-0.5 rounded-full bg-[#0B1B3D]/90 border border-[#C5A059] text-[#C5A059] text-[9px] font-cinzel font-bold tracking-wider uppercase">
+                    {item.category}
+                  </span>
+                </div>
+              </div>
+
+              {/* Information & Action Buttons right in place */}
+              <div className="flex-1 flex flex-col justify-between w-full">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="font-cinzel text-lg sm:text-xl font-bold text-[#0B1B3D]">
+                      {item.name}
+                    </h4>
+                    {item.isGajahSignature && (
+                      <span className="px-2 py-0.5 rounded-full bg-[#C5A059] text-[#0B1B3D] text-[9px] font-cinzel font-bold tracking-wider uppercase">
+                        SIGNATURE
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-[#605A55] font-light leading-relaxed mb-4">
+                    {item.description ||
+                      "Racikan istimewa khas Sekarsuli Coffee & Masakan Jawa. Menggunakan rempah alami dan bahan berkualitas di Ndalem Sekarsuli, Banguntapan, Bantul."}
+                  </p>
+                </div>
+
+                {/* Practical Direct Action Buttons */}
+                <div className="pt-3 border-t border-[#C5A059]/25 flex flex-wrap items-center gap-2.5">
+                  {/* Button 1: Add to Reservation Form */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToReservation();
+                    }}
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-xs font-cinzel font-bold tracking-editorial uppercase transition-all shadow-sm"
+                  >
+                    <CalendarPlus className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <span>PESAN DI FORM RESERVASI</span>
+                  </button>
+
+                  {/* Button 2: Quick WhatsApp Inquire */}
+                  <a
+                    href={`https://wa.me/${whatsappNumber}?text=${quickWaMessage}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-cinzel font-bold tracking-editorial uppercase transition-all shadow-sm"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-200" />
+                    <span>PESAN CEPAT WA</span>
+                    <ExternalLink className="w-3 h-3 text-emerald-200" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         )}
-      </div>
-
-      {/* Dotted / Dashed Gold Hairline Leader Line */}
-      <div className="flex-grow border-b border-dotted border-[#C5A059]/60 mx-1" />
-
-      {/* Right Diamond End Marker */}
-      <div className="shrink-0 z-10 bg-[#FAF5ED] group-hover:bg-[#F5EFEB] pl-2 transition-colors flex items-center gap-1.5">
-        {item.description ? (
-          <span className="hidden sm:inline text-[11px] text-[#605A55] font-light italic max-w-[140px] truncate">
-            {item.description}
-          </span>
-        ) : null}
-        <span className="text-[#C5A059] text-xs group-hover:scale-125 transition-transform">
-          ❖
-        </span>
-      </div>
+      </AnimatePresence>
     </div>
   );
 }

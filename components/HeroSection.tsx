@@ -82,22 +82,29 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.65 }}
-            className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4"
+            className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
           >
             <Link
               href="#menu"
-              className="group inline-flex items-center gap-2.5 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#C5A059] text-[#071229] font-cinzel font-bold text-xs tracking-editorial uppercase hover:bg-[#DFBA75] hover:text-[#0B1B3D] transition-all duration-300 shadow-xl"
+              className="group inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#C5A059] text-[#071229] font-cinzel font-bold text-xs tracking-editorial uppercase hover:bg-[#DFBA75] hover:text-[#0B1B3D] transition-all duration-300 shadow-xl"
             >
               <span>JELAJAHI MENU</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
 
             <Link
+              href="#reservasi"
+              className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full border border-[#C5A059] text-[#FAF5ED] bg-[#0B1B3D]/80 backdrop-blur-sm text-xs font-cinzel font-bold tracking-editorial uppercase hover:bg-[#C5A059] hover:text-[#0B1B3D] transition-all duration-300 shadow-lg"
+            >
+              <span>BOOKING MEJA</span>
+            </Link>
+
+            <Link
               href="#location"
-              className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full border border-[#C5A059]/40 text-[#FAF5ED] bg-[#071229]/60 backdrop-blur-sm text-xs font-cinzel font-semibold tracking-editorial uppercase hover:border-[#C5A059] hover:text-[#C5A059] hover:bg-[#071229]/90 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-5 py-3.5 sm:py-4 rounded-full border border-white/20 text-[#FAF5ED]/80 bg-[#071229]/60 backdrop-blur-sm text-xs font-cinzel font-semibold tracking-editorial uppercase hover:border-[#C5A059] hover:text-[#C5A059] transition-all duration-300"
             >
               <Compass className="w-4 h-4 text-[#C5A059]" />
-              <span>PANDUAN KUNJUNGAN</span>
+              <span className="hidden sm:inline">PANDUAN LOKASI</span>
             </Link>
           </motion.div>
         </div>

@@ -15,13 +15,13 @@ export function SiteFooter() {
           <div className="md:col-span-5 flex flex-col space-y-5">
             <Link href="#hero" className="inline-block focus:outline-none">
               <div className="flex items-center gap-3.5">
-                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden shrink-0 border border-[#C5A059]/50 bg-[#0B1B3D] shadow-[0_0_15px_rgba(197,160,89,0.2)] ring-1 ring-[#C5A059]/30 p-1.5 flex items-center justify-center">
+                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-[0_0_15px_rgba(197,160,89,0.35)] ring-1 ring-[#C5A059]/40 p-1.5 flex items-center justify-center">
                   <Image
                     src="/images/logo-elephant-transparent.png"
                     alt="Logo Sekarsuli"
                     width={36}
                     height={36}
-                    className="object-contain"
+                    className="object-contain filter drop-shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col">
@@ -92,6 +92,14 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  href="#reservasi"
+                  className="text-[#C5A059] font-bold hover:text-[#DFBA75] transition-colors"
+                >
+                  RESERVASI &amp; BOOKING
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="#story"
                   className="hover:text-[#C5A059] transition-colors"
                 >
@@ -136,6 +144,18 @@ export function SiteFooter() {
                 <span>
                   {siteConfig.hours.schedule} ({siteConfig.hours.detail})
                 </span>
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <span className="text-[#C5A059] text-sm shrink-0">❖</span>
+                <a
+                  href={`https://wa.me/${siteConfig.contact.whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#C5A059] transition-colors"
+                >
+                  WhatsApp: {siteConfig.contact.whatsappDisplay || "0878-3022-8170"}
+                </a>
               </div>
             </div>
 
