@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #FAF7F2;
+    --bg-secondary: #F3ECE6;
+    --text-primary: #1F1612;
+    --text-muted: #5C4033;
+    --accent-gold: #C4984F;
+    --accent-olive: #4B5542;
+    --border-subtle: #E8E0D5;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #3D261C;
+    color: #FAF7F2;
+  }
+
+  /* Accessibility & Keyboard Navigation */
+  :focus-visible {
+    outline: 2px solid #C4984F;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Javanese Heritage Subtle Motif / Pattern utility */
+.batik-subtle {
+  background-image: radial-gradient(#C4984F 0.75px, transparent 0.75px), radial-gradient(#C4984F 0.75px, #FAF7F2 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  opacity: 0.07;
+}
+
+.batik-dark {
+  background-image: radial-gradient(#C4984F 0.75px, transparent 0.75px), radial-gradient(#C4984F 0.75px, #1A0E0A 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  opacity: 0.08;
+}
