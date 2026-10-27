@@ -10,7 +10,7 @@ export function StorySection() {
   return (
     <section
       id="story"
-      className="relative py-28 sm:py-36 md:py-44 bg-[#fbf9f4] text-[#0a1510] overflow-hidden content-auto scroll-mt-20 sm:scroll-mt-24"
+      className="relative py-28 sm:py-36 md:py-44 bg-[#FAF5ED] text-[#1B2430] overflow-hidden content-auto scroll-mt-20 sm:scroll-mt-24 border-b border-[#C5A059]/30"
       aria-label="Kisah dan Asal Usul"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -23,7 +23,7 @@ export function StorySection() {
             transition={{ duration: 0.6 }}
             className="flex items-center gap-3 mb-4"
           >
-            <span className="text-xs font-semibold tracking-wide-editorial uppercase text-[#738278]">
+            <span className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#8C6D37]">
               03 • KISAH &amp; IDENTITAS
             </span>
           </motion.div>
@@ -33,11 +33,11 @@ export function StorySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-3xl sm:text-5xl md:text-6xl font-normal leading-tight text-[#0a1510]"
+            className="font-display text-3xl sm:text-5xl md:text-6xl font-normal leading-tight text-[#0B1B3D]"
           >
             Tumbuh di Ndalem Sekarsuli,
             <br />
-            <span className="italic font-light text-[#b85d3b]">
+            <span className="italic font-light text-[#8C6D37]">
               Merawat Tradisi Rasa.
             </span>
           </motion.h2>
@@ -52,7 +52,7 @@ export function StorySection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[16/11] sm:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-black/10 bg-[#e4ded5]"
+              className="relative aspect-[16/11] sm:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-2 border-[#C5A059]/40 bg-[#E8DFC8]"
             >
               <Image
                 src="/images/sekarsuli-joglo-exterior.jpg"
@@ -61,9 +61,9 @@ export function StorySection() {
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex items-center justify-between text-white text-xs">
-                <span className="font-semibold tracking-wide-editorial uppercase text-[10px] bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                <span className="font-cinzel font-semibold tracking-wide-editorial uppercase text-[10px] bg-[#0B1B3D]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#C5A059]/40 text-[#FAF5ED]">
                   PENDOPO JOGLO UTAMA • NDALEM SEKARSULI
                 </span>
                 <span className="hidden sm:inline font-mono text-[10px] opacity-80">
@@ -80,7 +80,7 @@ export function StorySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="space-y-4 text-sm sm:text-base text-[#3a4740] font-light leading-relaxed"
+              className="space-y-4 text-sm sm:text-base text-[#605A55] font-light leading-relaxed"
             >
               {story.paragraphs.map((p, idx) => (
                 <p key={idx}>{p}</p>
@@ -93,12 +93,12 @@ export function StorySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="p-6 rounded-2xl bg-white border border-[#0a1510]/10 shadow-sm space-y-2 mt-4"
+              className="p-6 rounded-2xl bg-white border border-[#C5A059]/30 shadow-sm space-y-2 mt-4"
             >
-              <span className="text-[11px] font-semibold tracking-editorial uppercase text-[#b85d3b]">
-                IKON GAJAH &amp; REST AREA ASYIK
+              <span className="text-[11px] font-cinzel font-bold tracking-editorial uppercase text-[#8C6D37]">
+                IKON GAJAH &amp; PERSINGGAHAN NYAMAN
               </span>
-              <p className="text-xs sm:text-sm text-[#3a4740] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#605A55] leading-relaxed font-light">
                 Dihiasi landmark patung gajah ramah di pelataran depan, kawasan
                 Ndalem Sekarsuli menjadi oase persinggahan favorit bagi pelancong
                 arah Wonosari–Jogja, rombongan keluarga, maupun penikmat kopi senja.

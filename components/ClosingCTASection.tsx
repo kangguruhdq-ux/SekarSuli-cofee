@@ -9,11 +9,11 @@ import { siteConfig } from "@/lib/site-config";
 export function ClosingCTASection() {
   return (
     <section
-      className="relative py-28 sm:py-36 md:py-44 bg-[#0a1510] text-[#f6f4ee] overflow-hidden content-auto border-t border-white/10"
+      className="relative py-28 sm:py-36 md:py-44 bg-[#0B1B3D] text-[#FAF5ED] overflow-hidden content-auto border-t border-[#C5A059]/30"
       aria-label="Undangan Berkunjung"
     >
       {/* Background Image Overlay */}
-      <div className="absolute inset-0 z-0 opacity-25">
+      <div className="absolute inset-0 z-0 opacity-20">
         <Image
           src="/images/sekarsuli-joglo-panorama.jpg"
           alt="Sekarsuli Sunset"
@@ -21,7 +21,7 @@ export function ClosingCTASection() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1510] via-[#0a1510]/85 to-[#0a1510]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D] via-[#0B1B3D]/90 to-[#0B1B3D]" />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 text-center flex flex-col items-center">
@@ -33,7 +33,7 @@ export function ClosingCTASection() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-[#c9a86a]/40 bg-[#10211a]/80 shadow-[0_0_25px_rgba(201,168,106,0.25)] ring-1 ring-[#c9a86a]/30 p-2.5 flex items-center justify-center mx-auto">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-[#C5A059] bg-[#071229] shadow-[0_0_25px_rgba(197,160,89,0.3)] ring-1 ring-[#C5A059]/40 p-2.5 flex items-center justify-center mx-auto">
             <Image
               src="/images/logo-elephant-transparent.png"
               alt="Logo Sekarsuli"
@@ -50,7 +50,7 @@ export function ClosingCTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-xs font-semibold tracking-wide-editorial uppercase text-[#c9a86a] mb-4"
+          className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059] mb-4"
         >
           KERAMAHAN NDALEM SEKARSULI
         </motion.span>
@@ -61,10 +61,10 @@ export function ClosingCTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-display text-4xl sm:text-6xl md:text-7xl font-normal text-white max-w-3xl leading-[1.08]"
+          className="font-cinzel text-4xl sm:text-6xl md:text-7xl font-bold text-[#FAF5ED] max-w-3xl leading-[1.08]"
         >
           Sampai Jumpa di Sudut{" "}
-          <span className="italic font-light text-[#dfbf80]">
+          <span className="font-display italic font-light text-[#C5A059]">
             Joglo Sekarsuli.
           </span>
         </motion.h2>
@@ -75,7 +75,7 @@ export function ClosingCTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-6 text-sm sm:text-base md:text-lg text-[#ded8cd] max-w-xl font-light leading-relaxed"
+          className="mt-6 text-sm sm:text-base md:text-lg text-[#FAF5ED]/80 max-w-xl font-light leading-relaxed"
         >
           Duduk santai di pendopo Joglo, nikmati hangatnya seduhan kopi dan
           masakan Jawa, serta jadikan setiap momen kebersamaan lebih bermakna di
@@ -92,7 +92,7 @@ export function ClosingCTASection() {
         >
           <Link
             href="#location"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#f6f4ee] text-[#0a1510] text-xs font-semibold tracking-editorial uppercase hover:bg-[#c9a86a] transition-all shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#C5A059] text-[#071229] text-xs font-cinzel font-bold tracking-editorial uppercase hover:bg-[#DFBA75] transition-all shadow-xl"
           >
             <span>PETUNJUK KUNJUNGAN</span>
             <ArrowUpRight className="w-4 h-4" />
@@ -100,9 +100,9 @@ export function ClosingCTASection() {
 
           <Link
             href="#menu"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-[#f6f4ee] bg-black/30 backdrop-blur-sm text-xs font-semibold tracking-editorial uppercase hover:border-[#c9a86a] hover:text-[#c9a86a] transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#C5A059]/50 text-[#FAF5ED] bg-[#071229]/60 backdrop-blur-sm text-xs font-cinzel font-semibold tracking-editorial uppercase hover:border-[#C5A059] hover:text-[#C5A059] transition-all"
           >
-            <span>KATALOG MENU LENGKAP</span>
+            <span>KATALOG BUKU MENU</span>
           </Link>
         </motion.div>
       </div>

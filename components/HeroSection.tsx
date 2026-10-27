@@ -10,7 +10,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[100svh] w-full flex flex-col justify-between overflow-hidden bg-[#0a1510]"
+      className="relative min-h-[100svh] w-full flex flex-col justify-between overflow-hidden bg-[#071229]"
       aria-label="Pengantar Sekarsuli Coffee"
     >
       {/* Cinematic Background Image with Zoom Animation */}
@@ -29,8 +29,9 @@ export function HeroSection() {
             sizes="100vw"
             className="object-cover object-[center_55%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1510] via-[#0a1510]/40 to-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1510]/80 via-transparent to-black/30" />
+          {/* Royal Navy & Gold Dark Gradient Vignette */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D] via-[#071229]/65 to-[#071229]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#071229]/90 via-transparent to-black/40" />
         </motion.div>
       </div>
 
@@ -47,8 +48,8 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex items-center gap-3 mb-5"
           >
-            <span className="w-8 h-[1px] bg-[#c9a86a]" />
-            <span className="text-[11px] sm:text-xs font-semibold tracking-wide-editorial uppercase text-[#e4ded5]">
+            <span className="w-8 h-[1px] bg-[#C5A059]" />
+            <span className="text-[11px] sm:text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#DFBA75]">
               NDALEM SEKARSULI • JOGLO &amp; MASAKAN JAWA
             </span>
           </motion.div>
@@ -58,10 +59,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.35 }}
-            className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal leading-[1.06] tracking-tight text-[#f6f4ee]"
+            className="font-cinzel text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-bold leading-[1.06] tracking-tight text-[#FAF5ED]"
           >
             Merawat Rasa,
-            <span className="italic font-light text-[#dfbf80] block sm:inline sm:ml-3">
+            <span className="font-display italic font-light text-[#C5A059] block sm:inline sm:ml-3">
               Menjaga Tradisi.
             </span>
           </motion.h1>
@@ -71,7 +72,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-6 text-sm sm:text-base md:text-lg text-[#ded8cd] max-w-2xl font-light leading-relaxed"
+            className="mt-6 text-sm sm:text-base md:text-lg text-[#FAF5ED]/85 max-w-2xl font-light leading-relaxed"
           >
             {siteConfig.heroDescription}
           </motion.p>
@@ -85,7 +86,7 @@ export function HeroSection() {
           >
             <Link
               href="#menu"
-              className="group inline-flex items-center gap-2.5 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#f6f4ee] text-[#0a1510] font-semibold text-xs tracking-editorial uppercase hover:bg-[#c9a86a] hover:text-[#0a1510] transition-all duration-300 shadow-lg"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#C5A059] text-[#071229] font-cinzel font-bold text-xs tracking-editorial uppercase hover:bg-[#DFBA75] hover:text-[#0B1B3D] transition-all duration-300 shadow-xl"
             >
               <span>JELAJAHI MENU</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -93,9 +94,9 @@ export function HeroSection() {
 
             <Link
               href="#location"
-              className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full border border-white/20 text-[#f6f4ee] bg-black/30 backdrop-blur-sm text-xs font-semibold tracking-editorial uppercase hover:border-[#c9a86a] hover:text-[#c9a86a] hover:bg-black/50 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full border border-[#C5A059]/40 text-[#FAF5ED] bg-[#071229]/60 backdrop-blur-sm text-xs font-cinzel font-semibold tracking-editorial uppercase hover:border-[#C5A059] hover:text-[#C5A059] hover:bg-[#071229]/90 transition-all duration-300"
             >
-              <Compass className="w-4 h-4 text-[#c9a86a]" />
+              <Compass className="w-4 h-4 text-[#C5A059]" />
               <span>PANDUAN KUNJUNGAN</span>
             </Link>
           </motion.div>
@@ -107,27 +108,27 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.8 }}
-        className="relative z-10 w-full border-t border-white/10 bg-[#0a1510]/80 backdrop-blur-md px-6 sm:px-8 lg:px-12 py-4"
+        className="relative z-10 w-full border-t border-[#C5A059]/20 bg-[#071229]/90 backdrop-blur-md px-6 sm:px-8 lg:px-12 py-4"
       >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#aba195]">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#FAF5ED]/70">
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <span className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5 text-[#c9a86a]" />
+              <Clock className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Buka Setiap Hari: 10.00 – 22.00 WIB</span>
             </span>
-            <span className="hidden md:inline-block text-white/20">•</span>
+            <span className="hidden md:inline-block text-[#C5A059]/40">•</span>
             <span className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-[#c9a86a]" />
+              <MapPin className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Jl. Wonosari KM 8, Banguntapan, Bantul</span>
             </span>
           </div>
 
           <Link
             href="#statement"
-            className="flex items-center gap-2 text-[11px] tracking-editorial uppercase text-[#aba195] hover:text-[#c9a86a] transition-colors"
+            className="flex items-center gap-2 text-[11px] font-cinzel tracking-editorial uppercase text-[#FAF5ED]/70 hover:text-[#C5A059] transition-colors"
           >
             <span>GULIR KE BAWAH</span>
-            <ArrowDown className="w-3.5 h-3.5 text-[#c9a86a]" />
+            <ArrowDown className="w-3.5 h-3.5 text-[#C5A059]" />
           </Link>
         </div>
       </motion.div>

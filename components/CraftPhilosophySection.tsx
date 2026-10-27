@@ -29,12 +29,12 @@ const PILLARS = [
 export function CraftPhilosophySection() {
   return (
     <section
-      className="relative py-24 sm:py-32 bg-[#10211a] text-[#f6f4ee] border-y border-white/10 content-auto"
+      className="relative py-24 sm:py-32 bg-[#0B1B3D] text-[#FAF5ED] border-y border-[#C5A059]/30 content-auto"
       aria-label="Filosofi Dapur dan Seduhan"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-14 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-14 border-b border-[#C5A059]/30">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export function CraftPhilosophySection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <span className="text-xs font-semibold tracking-wide-editorial uppercase text-[#c9a86a]">
+              <span className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059]">
                 05 • DEDIKASI KRAF &amp; TRADISI
               </span>
             </motion.div>
@@ -52,7 +52,7 @@ export function CraftPhilosophySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display text-3xl sm:text-5xl font-normal text-white mt-2"
+              className="font-cinzel text-3xl sm:text-5xl font-normal text-[#FAF5ED] mt-2"
             >
               Filosofi Dapur &amp; Bar Seduhan
             </motion.h2>
@@ -63,7 +63,7 @@ export function CraftPhilosophySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm text-[#9ba79f] max-w-sm leading-relaxed"
+            className="text-sm text-[#FAF5ED]/70 max-w-sm leading-relaxed font-light"
           >
             Menjaga keaslian rasa bahan lokal, kejujuran proses pengolahan, dan
             kehangatan budaya berkumpul di Yogyakarta.
@@ -79,30 +79,32 @@ export function CraftPhilosophySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: idx * 0.15 }}
-              className="flex flex-col justify-between p-8 rounded-2xl bg-[#0a1510]/60 border border-white/10 hover:border-[#c9a86a]/40 transition-all duration-300 group"
+              className="flex flex-col justify-between p-8 rounded-2xl bg-[#071229] border border-[#C5A059]/30 hover:border-[#C5A059] transition-all duration-300 group shadow-xl"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-display text-4xl sm:text-5xl font-light text-[#c9a86a]/60 group-hover:text-[#c9a86a] transition-colors">
+                  <span className="font-cinzel text-4xl sm:text-5xl font-light text-[#C5A059]/50 group-hover:text-[#C5A059] transition-colors">
                     {p.number}
                   </span>
-                  <span className="text-[10px] font-semibold tracking-wide-editorial uppercase text-[#738278]">
+                  <span className="text-[10px] font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059]/70">
                     {p.tag}
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl font-normal text-white mb-3 group-hover:text-[#dfbf80] transition-colors">
+                <h3 className="font-cinzel text-2xl font-normal text-[#FAF5ED] mb-3 group-hover:text-[#C5A059] transition-colors">
                   {p.title}
                 </h3>
 
-                <p className="text-xs sm:text-sm text-[#9ba79f] font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#FAF5ED]/70 font-light leading-relaxed">
                   {p.description}
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-[#738278]">
-                <span>Sekarsuli Coffee</span>
-                <span className="text-[#c9a86a]">✦</span>
+              <div className="mt-8 pt-4 border-t border-[#C5A059]/20 flex items-center justify-between text-[11px] text-[#C5A059]">
+                <span className="font-cinzel uppercase tracking-wider text-[10px]">
+                  Sekarsuli Coffee
+                </span>
+                <span>❖</span>
               </div>
             </motion.div>
           ))}

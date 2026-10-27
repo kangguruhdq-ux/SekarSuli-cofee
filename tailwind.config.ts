@@ -9,6 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        royal: {
+          navy: "#0B1B3D",
+          navyDark: "#071229",
+          navyLight: "#162447",
+          gold: "#C5A059",
+          goldLight: "#DFBA75",
+          goldDark: "#8C6D37",
+          goldMuted: "#B88E44",
+          parchment: "#FAF5ED",
+          parchmentAged: "#F5EFEB",
+          parchmentBorder: "#E8DFC8",
+          charcoal: "#1B2430",
+          mutedBrown: "#605A55",
+        },
         njongke: {
           dark: "#0a1510",
           darker: "#060e0a",
@@ -26,6 +40,7 @@ const config: Config = {
         },
       },
       fontFamily: {
+        cinzel: ["var(--font-cinzel)", "Cinzel", "Georgia", "serif"],
         display: ["var(--font-display)", "Newsreader", "Georgia", "serif"],
         serif: ["var(--font-display)", "Newsreader", "Georgia", "serif"],
         sans: ["var(--font-sans)", "Plus Jakarta Sans", "system-ui", "sans-serif"],

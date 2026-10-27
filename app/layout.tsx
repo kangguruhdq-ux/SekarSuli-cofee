@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
+import { Cinzel, Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
+
+const cinzelFont = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 const displayFont = Newsreader({
   subsets: ["latin"],
@@ -131,7 +138,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="id" className={`${displayFont.variable} ${sansFont.variable}`}>
+    <html lang="id" className={`${cinzelFont.variable} ${displayFont.variable} ${sansFont.variable}`}>
       <head>
         <script
           type="application/ld+json"

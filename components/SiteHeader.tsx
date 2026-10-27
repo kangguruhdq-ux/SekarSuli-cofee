@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Compass } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 
 const NAV_LINKS = [
@@ -27,145 +27,185 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock both html and body scroll when mobile menu is active
   useEffect(() => {
     if (mobileMenuOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     }
     return () => {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#0a1510]/95 backdrop-blur-md border-b border-white/10 py-4 shadow-xl"
-          : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5 sm:py-6"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <div className="flex items-center justify-between gap-6 lg:gap-10">
-          {/* Logo brand with circular emblem */}
-          <Link
-            href="#hero"
-            aria-label="Sekarsuli Coffee Beranda"
-            className="group focus:outline-none"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 border border-[#c9a86a]/40 bg-[#10211a]/80 shadow-[0_0_15px_rgba(201,168,106,0.15)] ring-1 ring-[#c9a86a]/20 p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? "bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#C5A059]/25 py-4 shadow-2xl"
+            : "bg-gradient-to-b from-[#071229]/95 via-[#071229]/70 to-transparent py-5 sm:py-6"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between gap-6 lg:gap-10">
+            {/* Logo Brand */}
+            <Link
+              href="#hero"
+              aria-label="Sekarsuli Coffee Beranda"
+              className="group focus:outline-none"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 border border-[#C5A059]/60 bg-[#0B1B3D] shadow-[0_0_15px_rgba(197,160,89,0.25)] ring-1 ring-[#C5A059]/30 p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+                  <Image
+                    src="/images/logo-elephant-transparent.png"
+                    alt="Logo Sekarsuli Coffee"
+                    width={36}
+                    height={36}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-cinzel font-semibold tracking-editorial uppercase leading-none text-sm sm:text-base text-[#FAF5ED]">
+                    {siteConfig.brand}
+                  </span>
+                  <span className="tracking-wide-editorial uppercase font-sans mt-1 text-[10px] text-[#C5A059] font-medium">
+                    COFFEE &amp; MASAKAN JAWA
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation Links */}
+            <nav
+              aria-label="Navigasi Utama"
+              className="hidden lg:flex items-center gap-7 xl:gap-9"
+            >
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[11px] xl:text-xs font-medium tracking-editorial uppercase text-[#FAF5ED]/80 hover:text-[#C5A059] transition-colors duration-200 relative group py-2"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#C5A059] transition-all duration-300 group-hover:w-full" />
+                </Link>
+              ))}
+            </nav>
+
+            {/* Desktop Right Action Button */}
+            <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+              <Link
+                href="#location"
+                className="hidden sm:inline-flex items-center gap-2 text-[11px] xl:text-xs font-semibold tracking-editorial uppercase px-5 py-2.5 rounded-full border border-[#C5A059]/60 text-[#FAF5ED] bg-[#0B1B3D] hover:bg-[#C5A059] hover:text-[#0B1B3D] hover:border-[#C5A059] transition-all duration-300 shadow-sm"
+              >
+                <span>PANDUAN KUNJUNGAN</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+
+              {/* Mobile Hamburger Button */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                className="lg:hidden p-2.5 rounded-full border border-[#C5A059]/40 bg-[#0B1B3D] text-[#FAF5ED] hover:text-[#C5A059] transition-colors focus:outline-none shadow-md"
+                aria-label="Buka Menu Navigasi"
+                aria-expanded={mobileMenuOpen}
+              >
+                <Menu className="w-5 h-5 stroke-[1.8]" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Dedicated Solid Full-Screen Mobile Drawer (100% Opaque, No Overlaps) */}
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-[#0B1B3D] text-[#FAF5ED] flex flex-col justify-between overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu Navigasi Mobile"
+        >
+          {/* Top Bar inside Drawer */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-[#C5A059]/25 bg-[#071229]">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full overflow-hidden border border-[#C5A059]/50 bg-[#0B1B3D] p-1 flex items-center justify-center">
                 <Image
                   src="/images/logo-elephant-transparent.png"
-                  alt="Logo Sekarsuli Coffee"
-                  width={36}
-                  height={36}
+                  alt="Logo Sekarsuli"
+                  width={30}
+                  height={30}
                   className="object-contain"
-                  priority
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-display font-medium tracking-editorial uppercase leading-none text-sm sm:text-base text-[#f6f4ee]">
-                  {siteConfig.brand}
+                <span className="font-cinzel text-sm font-semibold tracking-editorial text-[#FAF5ED]">
+                  SEKARSULI
                 </span>
-                <span className="tracking-wide-editorial uppercase font-sans mt-1 text-[10px] text-[#c9a86a]">
-                  COFFEE & MASAKAN JAWA
+                <span className="text-[9px] tracking-wide-editorial uppercase text-[#C5A059]">
+                  COFFEE &amp; MASAKAN JAWA
                 </span>
               </div>
             </div>
-          </Link>
 
-          {/* Desktop Nav Links */}
-          <nav
-            aria-label="Navigasi Utama"
-            className="hidden lg:flex items-center gap-7 xl:gap-9"
-          >
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2.5 rounded-full border border-[#C5A059]/40 bg-[#0B1B3D] text-[#FAF5ED] hover:text-[#C5A059] transition-colors focus:outline-none"
+              aria-label="Tutup Menu"
+            >
+              <X className="w-5 h-5 stroke-[2]" />
+            </button>
+          </div>
+
+          {/* Links List */}
+          <nav className="flex flex-col px-6 py-6 divide-y divide-white/5 flex-grow">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-[11px] xl:text-xs font-medium tracking-editorial uppercase text-[#e4ded5] hover:text-[#c9a86a] transition-colors duration-200 relative group py-2"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-4 text-base font-cinzel font-medium tracking-editorial uppercase text-[#FAF5ED] hover:text-[#C5A059] transition-colors flex items-center justify-between group"
               >
-                {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#c9a86a] transition-all duration-300 group-hover:w-full" />
+                <span>{link.label}</span>
+                <span className="text-[#C5A059] opacity-70 group-hover:translate-x-1 transition-transform">
+                  ❖
+                </span>
               </Link>
             ))}
           </nav>
 
-          {/* Right Action Button */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          {/* Bottom Actions inside Drawer */}
+          <div className="p-6 border-t border-[#C5A059]/25 bg-[#071229] flex flex-col gap-3">
+            <Link
+              href="#menu"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#C5A059] text-[#071229] text-xs font-semibold tracking-editorial uppercase shadow-lg hover:bg-[#DFBA75] transition-all"
+            >
+              <span>JELAJAHI BUKU MENU</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+
             <Link
               href="#location"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] xl:text-xs font-semibold tracking-editorial uppercase px-5 py-2.5 rounded-full border border-[#c9a86a]/40 text-[#f6f4ee] bg-[#10211a]/60 hover:bg-[#c9a86a] hover:text-[#0a1510] hover:border-[#c9a86a] transition-all duration-300 shadow-sm"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full border border-[#C5A059]/40 text-[#FAF5ED] text-xs font-semibold tracking-editorial uppercase hover:bg-white/5 transition-all"
             >
-              <span>PANDUAN KUNJUNGAN</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <Compass className="w-4 h-4 text-[#C5A059]" />
+              <span>PETUNJUK LOKASI</span>
             </Link>
 
-            {/* Mobile Hamburger Button */}
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-full border border-white/15 bg-black/40 text-[#f6f4ee] hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
-              aria-label={mobileMenuOpen ? "Tutup menu" : "Buka Menu Navigasi"}
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5 stroke-[1.5]" />
-              ) : (
-                <Menu className="w-5 h-5 stroke-[1.5]" />
-              )}
-            </button>
+            <p className="text-center text-[10px] tracking-wide-editorial uppercase text-[#FAF5ED]/50 pt-2">
+              Ndalem Sekarsuli — Jl. Wonosari KM 8, Banguntapan
+            </p>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Menu Drawer */}
-      <div
-        className={`lg:hidden fixed inset-x-0 top-[73px] bottom-0 bg-[#0a1510]/98 backdrop-blur-xl border-t border-white/10 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 ${
-          mobileMenuOpen
-            ? "opacity-100 pointer-events-auto translate-y-0"
-            : "opacity-0 pointer-events-none -translate-y-2"
-        }`}
-      >
-        <nav className="flex flex-col space-y-4 pt-2">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-display tracking-editorial uppercase text-[#f6f4ee] hover:text-[#c9a86a] transition-colors py-3 border-b border-white/5 flex items-center justify-between"
-            >
-              <span>{link.label}</span>
-              <span className="text-[#c9a86a] text-xs">→</span>
-            </Link>
-          ))}
-        </nav>
-
-        <div className="pt-6 border-t border-white/10 flex flex-col gap-3">
-          <Link
-            href="#menu"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#f6f4ee] text-[#0a1510] text-xs font-semibold tracking-editorial uppercase hover:bg-[#c9a86a]"
-          >
-            <span>JELAJAHI MENU</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
-
-          <Link
-            href="#location"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full border border-white/20 text-[#f6f4ee] text-xs font-semibold tracking-editorial uppercase hover:border-[#c9a86a]"
-          >
-            <span>PANDUAN LOKASI</span>
-          </Link>
-
-          <p className="text-center text-[10px] tracking-editorial uppercase text-[#9ba79f] mt-2">
-            Jl. Wonosari KM 8, Banguntapan, Bantul
-          </p>
-        </div>
-      </div>
-    </header>
+      )}
+    </>
   );
 }
