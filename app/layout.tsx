@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
 
-const serifFont = Playfair_Display({
+const displayFont = Newsreader({
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-display",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  weight: ["300", "400", "500", "600"],
 });
 
 const sansFont = Plus_Jakarta_Sans({
@@ -18,7 +19,7 @@ const sansFont = Plus_Jakarta_Sans({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#1A0E0A",
+  themeColor: "#0a1510",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -27,7 +28,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://sekarsulicoffee.com"),
   title: {
-    default: "Sekarsuli Coffee & Masakan Jawa — Tradisi Kuliner & Kopi di Ndalem Sekarsuli, Jogja",
+    default: "Sekarsuli Coffee & Masakan Jawa — Oase Kopi, Joglo Tradisi & Cita Rasa Jawa",
     template: "%s | Sekarsuli Coffee & Masakan Jawa",
   },
   description: siteConfig.description,
@@ -130,14 +131,14 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="id" className={`${serifFont.variable} ${sansFont.variable}`}>
+    <html lang="id" className={`${displayFont.variable} ${sansFont.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-sans antialiased bg-cream-50 text-coffee-950 selection:bg-coffee-800 selection:text-cream-50 min-h-screen flex flex-col">
+      <body className="font-sans antialiased bg-[#0a1510] text-[#f6f4ee] selection:bg-[#c9a86a] selection:text-[#0a1510] min-h-screen flex flex-col">
         {children}
       </body>
     </html>

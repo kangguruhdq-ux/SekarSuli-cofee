@@ -17,6 +17,7 @@ export interface MenuItem {
   price?: number; // Opsional: dapat diisi kemudian oleh pemilik saat konfirmasi harga resmi
   isFeatured?: boolean;
   isGajahSignature?: boolean;
+  image?: string;
 }
 
 export const MENU_CATEGORIES: MenuCategory[] = [
@@ -47,6 +48,7 @@ export const MENU_ITEMS: MenuItem[] = [
     name: "Espresso",
     category: "Coffee",
     description: "Intisari kopi ± 40 ml.",
+    image: "/images/products/espresso.jpg",
   },
   {
     id: "coffee-americano",
@@ -59,6 +61,7 @@ export const MENU_ITEMS: MenuItem[] = [
     name: "Cappuccino",
     category: "Coffee",
     description: "⅔ double shot espresso dengan fresh milk.",
+    image: "/images/products/cappuccino.jpg",
   },
   {
     id: "coffee-latte",
@@ -72,6 +75,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Coffee",
     description: "Double shot espresso dengan fresh milk.",
     isFeatured: true,
+    image: "/images/products/magic.jpg",
   },
   {
     id: "coffee-arenga",
@@ -79,6 +83,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Coffee",
     description: "Kopi susu dengan gula aren organik.",
     isFeatured: true,
+    image: "/images/products/arenga.jpg",
   },
   {
     id: "coffee-butterscotch-latte",
@@ -86,6 +91,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Coffee",
     description: "Kopi susu rasa butterscotch.",
     isFeatured: true,
+    image: "/images/products/butterscotch-latte.jpg",
   },
   {
     id: "coffee-sea-salt-vanilla",
@@ -100,6 +106,7 @@ export const MENU_ITEMS: MenuItem[] = [
     name: "Chocolate",
     category: "Non Coffee",
     description: "Powder coklat & susu.",
+    image: "/images/products/chocolate.jpg",
   },
   {
     id: "non-coffee-matcha-latte",
@@ -113,6 +120,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Non Coffee",
     description: "Powder teh matcha, susu & saus strawberry.",
     isFeatured: true,
+    image: "/images/products/matcha-strawberry.jpg",
   },
   {
     id: "non-coffee-salted-red-velvet",
@@ -128,12 +136,14 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Refreshing",
     description: "Madu & Lemon.",
     isFeatured: true,
+    image: "/images/products/honey-lemon.jpg",
   },
   {
     id: "refreshing-tropical-berry",
     name: "Tropical Berry",
     category: "Refreshing",
     description: "Strawberry, Lychee, Lemon.",
+    image: "/images/products/es-kuwut.jpg",
   },
   {
     id: "refreshing-americano-lemonade",
@@ -161,27 +171,32 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "Snack",
     isFeatured: true,
     isGajahSignature: true,
+    image: "/images/products/mendoan-gajah.jpg",
   },
   {
     id: "snack-singkong-goreng",
     name: "Singkong Goreng",
     category: "Snack",
+    image: "/images/products/singkong-goreng.jpg",
   },
   {
     id: "snack-kentang-goreng",
     name: "Kentang Goreng",
     category: "Snack",
+    image: "/images/products/kentang-goreng.jpg",
   },
   {
     id: "snack-pisang-goreng",
     name: "Pisang Goreng",
     category: "Snack",
     isFeatured: true,
+    image: "/images/products/pisang-goreng.jpg",
   },
   {
     id: "snack-roti-bakar-cokelat",
     name: "Roti Bakar Cokelat",
     category: "Snack",
+    image: "/images/products/roti-bakar.jpg",
   },
   {
     id: "snack-roti-bakar-keju",
@@ -192,11 +207,13 @@ export const MENU_ITEMS: MenuItem[] = [
     id: "snack-spicy-tofu",
     name: "Spicy Tofu",
     category: "Snack",
+    image: "/images/products/spicy-tofu.jpg",
   },
   {
     id: "snack-cireng",
     name: "Cireng",
     category: "Snack",
+    image: "/images/products/cireng.jpg",
   },
   {
     id: "snack-kacang-rebus",
@@ -240,23 +257,27 @@ export const MENU_ITEMS: MenuItem[] = [
     name: "Teh Gajah Mini (Panas/Es)",
     category: "Minuman",
     isGajahSignature: true,
+    image: "/images/products/teh-gajah.jpg",
   },
   {
     id: "minuman-teh-gajah-jumbo",
     name: "Teh Gajah Jumbo (Panas/Es)",
     category: "Minuman",
     isGajahSignature: true,
+    image: "/images/products/teh-gajah.jpg",
   },
   {
     id: "minuman-wedang-sereh",
     name: "Wedang Sereh",
     category: "Minuman",
     isFeatured: true,
+    image: "/images/products/wedang-sereh.jpg",
   },
   {
     id: "minuman-wedang-susu-jahe",
     name: "Wedang Susu Jahe",
     category: "Minuman",
+    image: "/images/products/wedang-susu-jahe.jpg",
   },
   {
     id: "minuman-wedang-jasem",
@@ -277,6 +298,7 @@ export const MENU_ITEMS: MenuItem[] = [
     id: "minuman-es-kuwut",
     name: "Es Kuwut",
     category: "Minuman",
+    image: "/images/products/es-kuwut.jpg",
   },
   {
     id: "minuman-jus-alpukat",
@@ -302,7 +324,6 @@ export const MENU_ITEMS: MenuItem[] = [
   },
 ];
 
-// Verifikasi integritas data katalog menu pada saat kompilasi / impor
 export const TOTAL_MENU_COUNT = MENU_ITEMS.length;
 
 if (TOTAL_MENU_COUNT !== 44) {

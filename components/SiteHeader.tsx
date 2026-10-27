@@ -7,12 +7,12 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 
 const NAV_LINKS = [
-  { href: "#beranda", label: "Beranda" },
-  { href: "#cerita", label: "Cerita" },
-  { href: "#unggulan", label: "Pilihan" },
-  { href: "#menu", label: "Menu" },
-  { href: "#suasana", label: "Suasana" },
-  { href: "#lokasi", label: "Lokasi" },
+  { href: "#hero", label: "BERANDA" },
+  { href: "#statement", label: "FILOSOFI" },
+  { href: "#menu", label: "MENU & KUDAPAN" },
+  { href: "#story", label: "KISAH" },
+  { href: "#atmosphere", label: "SUASANA JOGLO" },
+  { href: "#location", label: "LOKASI" },
 ];
 
 export function SiteHeader() {
@@ -27,7 +27,6 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -39,105 +38,96 @@ export function SiteHeader() {
     };
   }, [mobileMenuOpen]);
 
-  // Handle ESC key to close mobile menu
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "bg-cream-50/95 backdrop-blur-md border-b border-cream-200 shadow-sm py-3"
-          : "bg-cream-50/80 backdrop-blur-sm border-b border-transparent py-4"
+          ? "bg-[#0a1510]/95 backdrop-blur-md border-b border-white/10 py-4 shadow-xl"
+          : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5 sm:py-6"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo Brand */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="flex items-center justify-between gap-6 lg:gap-10">
+          {/* Logo brand with circular emblem */}
           <Link
-            href="#beranda"
-            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded-sm"
+            href="#hero"
+            aria-label="Sekarsuli Coffee Beranda"
+            className="group focus:outline-none"
           >
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-coffee-900/5 p-1 flex items-center justify-center border border-coffee-800/10 transition-transform group-hover:scale-105">
-              <Image
-                src="/images/logo-elephant-transparent.png"
-                alt="Logo Sekarsuli Coffee"
-                width={40}
-                height={40}
-                className="w-full h-full object-contain"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-lg sm:text-xl font-bold tracking-wider text-coffee-950 uppercase leading-none">
-                {siteConfig.brand}
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-medium tracking-[0.2em] text-coffee-600 uppercase mt-0.5">
-                {siteConfig.subtitle}
-              </span>
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 border border-[#c9a86a]/40 bg-[#10211a]/80 shadow-[0_0_15px_rgba(201,168,106,0.15)] ring-1 ring-[#c9a86a]/20 p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+                <Image
+                  src="/images/logo-elephant-transparent.png"
+                  alt="Logo Sekarsuli Coffee"
+                  width={36}
+                  height={36}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-display font-medium tracking-editorial uppercase leading-none text-sm sm:text-base text-[#f6f4ee]">
+                  {siteConfig.brand}
+                </span>
+                <span className="tracking-wide-editorial uppercase font-sans mt-1 text-[10px] text-[#c9a86a]">
+                  COFFEE & MASAKAN JAWA
+                </span>
+              </div>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7" aria-label="Navigasi Utama">
+          {/* Desktop Nav Links */}
+          <nav
+            aria-label="Navigasi Utama"
+            className="hidden lg:flex items-center gap-7 xl:gap-9"
+          >
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-coffee-800 hover:text-coffee-950 transition-colors tracking-wide py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-gold-500 hover:after:w-full after:transition-all after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded-sm"
+                className="text-[11px] xl:text-xs font-medium tracking-editorial uppercase text-[#e4ded5] hover:text-[#c9a86a] transition-colors duration-200 relative group py-2"
               >
                 {link.label}
+                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#c9a86a] transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* Desktop Right CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Right Action Button */}
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <Link
-              href="#menu"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-cream-50 bg-coffee-900 hover:bg-coffee-800 active:bg-coffee-950 rounded-sm transition-colors border border-coffee-800 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
+              href="#location"
+              className="hidden sm:inline-flex items-center gap-2 text-[11px] xl:text-xs font-semibold tracking-editorial uppercase px-5 py-2.5 rounded-full border border-[#c9a86a]/40 text-[#f6f4ee] bg-[#10211a]/60 hover:bg-[#c9a86a] hover:text-[#0a1510] hover:border-[#c9a86a] transition-all duration-300 shadow-sm"
             >
-              <span>Jelajahi Menu</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-gold-400" />
+              <span>PANDUAN KUNJUNGAN</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
-          </div>
 
-          {/* Mobile Menu Hamburger Button */}
-          <div className="flex items-center md:hidden">
+            {/* Mobile Hamburger Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-sm text-coffee-900 hover:text-coffee-950 hover:bg-cream-200/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
-              aria-label={mobileMenuOpen ? "Tutup menu" : "Buka menu navigasi"}
+              className="lg:hidden p-2.5 rounded-full border border-white/15 bg-black/40 text-[#f6f4ee] hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
+              aria-label={mobileMenuOpen ? "Tutup menu" : "Buka Menu Navigasi"}
               aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6" aria-hidden="true" />
+                <X className="w-5 h-5 stroke-[1.5]" />
               ) : (
-                <Menu className="w-6 h-6" aria-hidden="true" />
+                <Menu className="w-5 h-5 stroke-[1.5]" />
               )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Menu Drawer */}
       <div
-        id="mobile-navigation"
-        className={`md:hidden fixed inset-x-0 top-[65px] bottom-0 bg-cream-50/98 backdrop-blur-lg border-t border-cream-200 p-6 flex flex-col justify-between transition-all duration-300 ${
+        className={`lg:hidden fixed inset-x-0 top-[73px] bottom-0 bg-[#0a1510]/98 backdrop-blur-xl border-t border-white/10 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 ${
           mobileMenuOpen
             ? "opacity-100 pointer-events-auto translate-y-0"
             : "opacity-0 pointer-events-none -translate-y-2"
         }`}
-        aria-hidden={!mobileMenuOpen}
       >
         <nav className="flex flex-col space-y-4 pt-2">
           {NAV_LINKS.map((link) => (
@@ -145,33 +135,34 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-serif font-medium text-coffee-900 hover:text-gold-600 transition-colors py-2 border-b border-cream-200/60"
+              className="text-base font-display tracking-editorial uppercase text-[#f6f4ee] hover:text-[#c9a86a] transition-colors py-3 border-b border-white/5 flex items-center justify-between"
             >
-              {link.label}
+              <span>{link.label}</span>
+              <span className="text-[#c9a86a] text-xs">→</span>
             </Link>
           ))}
         </nav>
 
-        <div className="pt-6 pb-8 border-t border-cream-200/80 flex flex-col gap-3">
+        <div className="pt-6 border-t border-white/10 flex flex-col gap-3">
           <Link
             href="#menu"
             onClick={() => setMobileMenuOpen(false)}
-            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 text-xs font-semibold tracking-wider uppercase text-cream-50 bg-coffee-900 hover:bg-coffee-800 rounded-sm shadow-sm"
+            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#f6f4ee] text-[#0a1510] text-xs font-semibold tracking-editorial uppercase hover:bg-[#c9a86a]"
           >
-            <span>Jelajahi Menu Lengkap</span>
-            <ArrowUpRight className="w-4 h-4 text-gold-400" />
+            <span>JELAJAHI MENU</span>
+            <ArrowUpRight className="w-4 h-4" />
           </Link>
 
           <Link
-            href="#lokasi"
+            href="#location"
             onClick={() => setMobileMenuOpen(false)}
-            className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 text-xs font-semibold tracking-wider uppercase text-coffee-900 bg-cream-100 hover:bg-cream-200 border border-cream-300 rounded-sm"
+            className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full border border-white/20 text-[#f6f4ee] text-xs font-semibold tracking-editorial uppercase hover:border-[#c9a86a]"
           >
-            <span>Petunjuk Lokasi</span>
+            <span>PANDUAN LOKASI</span>
           </Link>
 
-          <p className="text-center text-[11px] text-coffee-600 mt-2">
-            Ndalem Sekarsuli — Jl. Wonosari KM 8, Banguntapan
+          <p className="text-center text-[10px] tracking-editorial uppercase text-[#9ba79f] mt-2">
+            Jl. Wonosari KM 8, Banguntapan, Bantul
           </p>
         </div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   MapPin,
   Clock,
@@ -10,6 +9,7 @@ import {
   Check,
   Compass,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { InstagramIcon } from "@/components/InstagramIcon";
 import { siteConfig } from "@/lib/site-config";
 
@@ -23,7 +23,6 @@ export function VisitSection() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Fallback for older browsers
       const textarea = document.createElement("textarea");
       textarea.value = location.fullAddress;
       document.body.appendChild(textarea);
@@ -37,64 +36,94 @@ export function VisitSection() {
 
   return (
     <section
-      id="lokasi"
-      className="py-20 sm:py-28 bg-cream-100 border-t border-cream-200/80 relative"
-      aria-label="Informasi Kunjungan dan Lokasi"
+      id="location"
+      className="relative py-28 sm:py-36 bg-[#fbf9f4] text-[#0a1510] content-auto scroll-mt-20 sm:scroll-mt-24 border-t border-black/10"
+      aria-label="Destinasi Tunggal dan Lokasi"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-14 sm:mb-16">
-          <p className="text-xs font-semibold tracking-widest uppercase text-gold-600 mb-2">
-            PANDUAN KUNJUNGAN
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal text-coffee-950 leading-tight">
-            Menuju Ndalem Sekarsuli
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-coffee-700 font-light">
-            Berada di jalur utama Jogja – Wonosari KM 8, mudah dijangkau kendaraan
-            pribadi maupun rombongan besar dengan area parkir yang sangat lapang.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#0a1510]/10">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex items-center gap-3 mb-3"
+            >
+              <span className="text-xs font-semibold tracking-wide-editorial uppercase text-[#b85d3b]">
+                06 • DESTINASI TUNGGAL &amp; LOKASI
+              </span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-display text-3xl sm:text-5xl md:text-6xl font-normal text-[#0a1510]"
+            >
+              Ndalem Sekarsuli di Banguntapan, Bantul
+            </motion.h2>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-sm text-[#3a4740] max-w-sm leading-relaxed"
+          >
+            Sekarsuli Coffee hadir di kawasan asri Ndalem Sekarsuli, Jl. Wonosari
+            KM 8 — menghadirkan oase Joglo Jawa, live musik akustik, dan sajian
+            kuliner pilihan dengan area parkir yang sangat luas.
+          </motion.p>
         </div>
 
-        {/* 2-Column Layout: Details on Left, Interactive Map on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          {/* Left Column: Location Cards & Details */}
-          <div className="lg:col-span-5 space-y-6">
-            {/* Address Card with Copy Action */}
-            <div className="p-6 bg-cream-50 rounded-sm border border-cream-200 shadow-sm">
-              <div className="flex items-start gap-3.5 mb-4">
-                <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center shrink-0 text-coffee-900 border border-cream-300">
-                  <MapPin className="w-5 h-5 text-gold-600" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-base font-semibold text-coffee-950">
-                    {location.venueName}
-                  </h3>
-                  <p className="text-xs text-gold-700 font-medium mt-0.5">
-                    {location.landmark}
-                  </p>
-                </div>
+        {/* 2-Column Content Grid */}
+        <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* Left Column: Details Cards */}
+          <div className="lg:col-span-5 flex flex-col space-y-6">
+            {/* Address Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="p-6 sm:p-8 rounded-2xl bg-white border border-[#0a1510]/10 shadow-sm space-y-4"
+            >
+              <div className="flex items-center gap-3 text-xs font-semibold tracking-wide-editorial uppercase text-[#b85d3b]">
+                <MapPin className="w-4 h-4" />
+                <span>ALAMAT LENGKAP</span>
               </div>
 
-              <p className="text-xs sm:text-sm text-coffee-800 leading-relaxed font-light mb-5 pl-0.5">
+              <div>
+                <h3 className="font-display text-2xl font-normal text-[#0a1510]">
+                  {location.venueName}
+                </h3>
+                <p className="text-xs text-[#738278] mt-0.5">
+                  {location.landmark}
+                </p>
+              </div>
+
+              <p className="text-sm text-[#3a4740] leading-relaxed font-light">
                 {location.fullAddress}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-cream-200/80">
+              <div className="flex flex-wrap items-center gap-3 pt-3">
                 <button
                   type="button"
                   onClick={handleCopyAddress}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-coffee-900 bg-cream-100 hover:bg-cream-200 active:bg-cream-300 border border-cream-300 rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
-                  aria-label="Salin alamat lengkap"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[#0a1510]/15 text-xs font-semibold tracking-editorial uppercase text-[#0a1510] hover:bg-[#0a1510] hover:text-white transition-all"
                 >
                   {copied ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700 font-semibold">Tersalin ke Clipboard</span>
+                      <span>Alamat Tersalin</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5 text-coffee-600" />
+                      <Copy className="w-3.5 h-3.5 text-[#738278]" />
                       <span>Salin Alamat</span>
                     </>
                   )}
@@ -104,96 +133,98 @@ export function VisitSection() {
                   href={location.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-wider uppercase text-cream-50 bg-coffee-900 hover:bg-coffee-800 active:bg-coffee-950 rounded-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0a1510] text-[#f6f4ee] text-xs font-semibold tracking-editorial uppercase hover:bg-[#c9a86a] hover:text-[#0a1510] transition-all shadow-md"
                 >
-                  <span>Buka Google Maps</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-gold-400" />
+                  <span>Buka Maps</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Hours Card */}
-            <div className="p-6 bg-cream-50 rounded-sm border border-cream-200 shadow-sm flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-full bg-cream-200 flex items-center justify-center shrink-0 text-coffee-900 border border-cream-300">
-                <Clock className="w-5 h-5 text-gold-600" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="p-6 sm:p-8 rounded-2xl bg-white border border-[#0a1510]/10 shadow-sm space-y-2"
+            >
+              <div className="flex items-center gap-3 text-xs font-semibold tracking-wide-editorial uppercase text-[#b85d3b]">
+                <Clock className="w-4 h-4" />
+                <span>JAM OPERASIONAL</span>
               </div>
-              <div>
-                <h3 className="font-serif text-base font-semibold text-coffee-950">
-                  {hours.label}
-                </h3>
-                <p className="text-lg font-serif font-medium text-coffee-900 mt-1">
-                  {hours.schedule}
-                </p>
-                <p className="text-xs text-coffee-600 mt-0.5">
-                  {hours.detail}
-                </p>
-              </div>
-            </div>
-
-            {/* Social & Channel Connect */}
-            <div className="p-6 bg-cream-50 rounded-sm border border-cream-200 shadow-sm">
-              <h3 className="font-serif text-base font-semibold text-coffee-950 mb-3">
-                Kanal Resmi
-              </h3>
-              <p className="text-xs text-coffee-700 leading-relaxed mb-4 font-light">
-                Ikuti pembaruan kegiatan harian, pertunjukan musik akustik, dan suasana terkini melalui akun Instagram kami.
+              <p className="font-display text-2xl font-normal text-[#0a1510]">
+                {hours.schedule}
               </p>
+              <p className="text-xs text-[#738278]">{hours.detail}</p>
+            </motion.div>
 
+            {/* Official Channel Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="p-6 sm:p-8 rounded-2xl bg-white border border-[#0a1510]/10 shadow-sm space-y-4"
+            >
+              <span className="text-xs font-semibold tracking-wide-editorial uppercase text-[#b85d3b]">
+                MEDIA SOSIAL RESMI
+              </span>
+              <p className="text-xs text-[#3a4740] leading-relaxed">
+                Dapatkan kabar pertunjukan musik akustik harian dan suasana terkini
+                di akun resmi Instagram Sekarsuli.
+              </p>
               <div className="flex flex-wrap gap-3">
                 <a
                   href={social.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-coffee-900 bg-cream-100 hover:bg-cream-200 border border-cream-300 rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#0a1510]/15 text-xs font-semibold tracking-editorial uppercase text-[#0a1510] hover:border-[#b85d3b] hover:text-[#b85d3b] transition-colors"
                 >
-                  <InstagramIcon className="w-4 h-4 text-rose-700" />
-                  <span>Instagram {social.instagramHandle}</span>
-                  <ExternalLink className="w-3 h-3 text-coffee-500" />
+                  <InstagramIcon className="w-4 h-4" />
+                  <span>{social.instagramHandle}</span>
                 </a>
 
-                {/* Conditional WhatsApp link: only rendered if verified */}
                 {contact.whatsappNumber && (
                   <a
-                    href={`https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(
-                      contact.whatsappMessage || ""
-                    )}`}
+                    href={`https://wa.me/${contact.whatsappNumber}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-cream-50 bg-emerald-800 hover:bg-emerald-700 rounded-sm transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-800 text-white text-xs font-semibold tracking-editorial uppercase hover:bg-emerald-700 transition-colors"
                   >
-                    <span>Hubungi WhatsApp</span>
+                    <span>WhatsApp</span>
                   </a>
                 )}
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Column: Google Maps Embed with Verified Landmark */}
+          {/* Right Column: Google Maps Embed (PIN POSITION ONLY, NO BLUE LINE ROUTE) */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-sm overflow-hidden border border-cream-300 bg-cream-200 shadow-md">
-              {/* Map Header Strip */}
-              <div className="px-5 py-3.5 bg-coffee-950 text-cream-50 flex items-center justify-between border-b border-coffee-800">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="rounded-2xl overflow-hidden border border-[#0a1510]/15 bg-white shadow-xl"
+            >
+              {/* Header Bar */}
+              <div className="px-6 py-4 bg-[#0a1510] text-[#f6f4ee] flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-gold-400" />
-                  <span className="text-xs font-serif font-medium tracking-wide">
-                    Peta Lokasi Sekarsuli Coffee
+                  <Compass className="w-4 h-4 text-[#c9a86a]" />
+                  <span className="text-xs font-display tracking-wide uppercase">
+                    Peta Posisi Sekarsuli Coffee
                   </span>
                 </div>
-                <a
-                  href={location.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] font-medium text-gold-400 hover:text-gold-300 inline-flex items-center gap-1 transition-colors"
-                >
-                  <span>Buka di Aplikasi</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                <span className="text-[10px] text-[#9ba79f] font-mono">
+                  KM 8 POTORONO / BATURETNO
+                </span>
               </div>
 
-              {/* Map Iframe */}
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full bg-cream-200">
+              {/* Clean Pin-Only Embed */}
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full bg-[#f3ece6]">
                 <iframe
-                  title="Peta Lokasi Ndalem Sekarsuli Coffee Banguntapan Bantul"
+                  title="Posisi Sekarsuli Coffee & Masakan Jawa di Ndalem Sekarsuli Bantul"
                   src={location.embedUrl}
                   width="100%"
                   height="100%"
@@ -201,16 +232,24 @@ export function VisitSection() {
                   allowFullScreen={false}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full filter contrast-105"
+                  className="w-full h-full"
                 />
               </div>
 
-              {/* Map Footer Note */}
-              <div className="p-4 bg-cream-50 text-[11px] text-coffee-600 border-t border-cream-200 flex items-center justify-between">
-                <span>Rute: Sebelum Ring Road Timur dari arah Piyungan/Wonosari</span>
-                <span className="text-coffee-500 font-mono text-[10px]">KM 8 Potorono / Baturetno</span>
+              {/* Footer Bar */}
+              <div className="px-6 py-3.5 bg-white border-t border-[#0a1510]/10 flex items-center justify-between text-xs text-[#738278]">
+                <span>Sebelum Ring Road Timur dari arah Wonosari / Piyungan</span>
+                <a
+                  href={location.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#b85d3b] hover:text-[#0a1510] font-semibold text-[11px] tracking-editorial uppercase inline-flex items-center gap-1"
+                >
+                  <span>Buka di Google Maps</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

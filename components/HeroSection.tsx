@@ -1,128 +1,136 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, MapPin, Compass } from "lucide-react";
+import { ArrowUpRight, Compass, Clock, MapPin, ArrowDown } from "lucide-react";
+import { motion } from "framer-motion";
 import { siteConfig } from "@/lib/site-config";
 
 export function HeroSection() {
   return (
     <section
-      id="beranda"
-      className="relative min-h-[92vh] sm:min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-cream-50"
+      id="hero"
+      className="relative min-h-[100svh] w-full flex flex-col justify-between overflow-hidden bg-[#0a1510]"
       aria-label="Pengantar Sekarsuli Coffee"
     >
-      {/* Subtle Javanese geometric background pattern */}
-      <div className="absolute inset-0 batik-subtle pointer-events-none" aria-hidden="true" />
+      {/* Cinematic Background Image with Zoom Animation */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 1.12 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
+          className="relative w-full h-full"
+        >
+          <Image
+            src="/images/sekarsuli-joglo-panorama.jpg"
+            alt="Panorama Senja Ndalem Sekarsuli Coffee & Masakan Jawa"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_55%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a1510] via-[#0a1510]/40 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1510]/80 via-transparent to-black/30" />
+        </motion.div>
+      </div>
 
-      {/* Decorative Warm Ambient Glow */}
-      <div
-        className="absolute top-1/4 right-5 sm:right-20 w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-gold-400/10 blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* Top Spacer for Fixed Header */}
+      <div className="relative z-10 pt-32 sm:pt-40" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          {/* Editorial Text Column */}
-          <div className="lg:col-span-6 z-10 flex flex-col items-start pr-0 lg:pr-6">
-            {/* Eyebrow with Javanese Golden Mark */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream-200/70 border border-cream-300 text-coffee-800 text-[11px] font-semibold tracking-widest uppercase mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-500" />
-              <span>{siteConfig.eyebrow}</span>
-            </div>
+      {/* Main Center Editorial Content */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-8 lg:px-12 py-10 md:py-16">
+        <div className="max-w-3xl">
+          {/* Eyebrow with Gold Accent Line */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center gap-3 mb-5"
+          >
+            <span className="w-8 h-[1px] bg-[#c9a86a]" />
+            <span className="text-[11px] sm:text-xs font-semibold tracking-wide-editorial uppercase text-[#e4ded5]">
+              NDALEM SEKARSULI • JOGLO &amp; MASAKAN JAWA
+            </span>
+          </motion.div>
 
-            {/* Single Main H1 for SEO */}
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-normal tracking-tight text-coffee-950 leading-[1.15] mb-6">
-              Merawat Rasa, <br className="hidden sm:inline" />
-              <span className="italic font-medium text-coffee-800">Menjaga Tradisi.</span>
-            </h1>
+          {/* Main Headline H1 with Italicized Accent */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35 }}
+            className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal leading-[1.06] tracking-tight text-[#f6f4ee]"
+          >
+            Merawat Rasa,
+            <span className="italic font-light text-[#dfbf80] block sm:inline sm:ml-3">
+              Menjaga Tradisi.
+            </span>
+          </motion.h1>
 
-            {/* Description */}
-            <p className="text-base sm:text-lg text-coffee-700 leading-relaxed max-w-xl mb-8 font-light">
-              {siteConfig.heroDescription}
-            </p>
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-6 text-sm sm:text-base md:text-lg text-[#ded8cd] max-w-2xl font-light leading-relaxed"
+          >
+            {siteConfig.heroDescription}
+          </motion.p>
 
-            {/* Dual CTAs */}
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <Link
-                href="#menu"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-xs font-semibold tracking-wider uppercase text-cream-50 bg-coffee-900 hover:bg-coffee-800 active:bg-coffee-950 rounded-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
-              >
-                <span>Jelajahi Menu</span>
-                <ArrowDown className="w-4 h-4 text-gold-400" />
-              </Link>
+          {/* Dual Pill CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4"
+          >
+            <Link
+              href="#menu"
+              className="group inline-flex items-center gap-2.5 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#f6f4ee] text-[#0a1510] font-semibold text-xs tracking-editorial uppercase hover:bg-[#c9a86a] hover:text-[#0a1510] transition-all duration-300 shadow-lg"
+            >
+              <span>JELAJAHI MENU</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
 
-              <Link
-                href="#lokasi"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold tracking-wider uppercase text-coffee-900 bg-cream-100/90 hover:bg-cream-200/90 active:bg-cream-300 border border-cream-300 rounded-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
-              >
-                <MapPin className="w-4 h-4 text-coffee-700" />
-                <span>Temukan Lokasi</span>
-              </Link>
-            </div>
-
-            {/* Bottom Meta Pill */}
-            <div className="mt-10 pt-6 border-t border-cream-200/90 w-full flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-coffee-600">
-              <div className="flex items-center gap-2">
-                <Compass className="w-4 h-4 text-gold-600 shrink-0" />
-                <span>Ndalem Sekarsuli — Banguntapan, Bantul</span>
-              </div>
-              <span className="hidden sm:inline text-cream-300">•</span>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 shrink-0" />
-                <span>Buka Setiap Hari 10.00 – 22.00 WIB</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Editorial Visual Composition */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative mx-auto max-w-lg lg:max-w-none">
-              {/* Decorative Frame Line */}
-              <div
-                className="absolute -inset-3 sm:-inset-4 border border-coffee-800/10 rounded-sm pointer-events-none -rotate-1 hidden sm:block"
-                aria-hidden="true"
-              />
-
-              {/* Main Joglo Panorama Image (LCP) */}
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-sm overflow-hidden shadow-lg border border-cream-200 bg-cream-200">
-                <Image
-                  src="/images/sekarsuli-joglo-panorama.jpg"
-                  alt="Kawasan Joglo Ndalem Sekarsuli Coffee & Masakan Jawa"
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                  className="object-cover object-center transform hover:scale-105 transition-transform duration-700"
-                />
-
-                {/* Subtle Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-coffee-950/60 via-transparent to-transparent opacity-80" />
-
-                {/* Caption Card on Image */}
-                <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 p-4 rounded-sm bg-cream-50/95 backdrop-blur-md border border-cream-200/80 text-coffee-950 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-serif text-sm sm:text-base font-semibold text-coffee-900">
-                        Ndalem Sekarsuli
-                      </p>
-                      <p className="text-[11px] sm:text-xs text-coffee-600">
-                        Jl. Wonosari KM 8 — Teduh, Ramah & Berkarakter
-                      </p>
-                    </div>
-                    <div className="w-9 h-9 rounded-full bg-coffee-900 flex items-center justify-center shrink-0 ml-3">
-                      <Image
-                        src="/images/logo-elephant-transparent.png"
-                        alt="Ikon Gajah Sekarsuli"
-                        width={24}
-                        height={24}
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <Link
+              href="#location"
+              className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full border border-white/20 text-[#f6f4ee] bg-black/30 backdrop-blur-sm text-xs font-semibold tracking-editorial uppercase hover:border-[#c9a86a] hover:text-[#c9a86a] hover:bg-black/50 transition-all duration-300"
+            >
+              <Compass className="w-4 h-4 text-[#c9a86a]" />
+              <span>PANDUAN KUNJUNGAN</span>
+            </Link>
+          </motion.div>
         </div>
       </div>
+
+      {/* Bottom Information Ticker Bar */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
+        className="relative z-10 w-full border-t border-white/10 bg-[#0a1510]/80 backdrop-blur-md px-6 sm:px-8 lg:px-12 py-4"
+      >
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#aba195]">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <span className="flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5 text-[#c9a86a]" />
+              <span>Buka Setiap Hari: 10.00 – 22.00 WIB</span>
+            </span>
+            <span className="hidden md:inline-block text-white/20">•</span>
+            <span className="flex items-center gap-2">
+              <MapPin className="w-3.5 h-3.5 text-[#c9a86a]" />
+              <span>Jl. Wonosari KM 8, Banguntapan, Bantul</span>
+            </span>
+          </div>
+
+          <Link
+            href="#statement"
+            className="flex items-center gap-2 text-[11px] tracking-editorial uppercase text-[#aba195] hover:text-[#c9a86a] transition-colors"
+          >
+            <span>GULIR KE BAWAH</span>
+            <ArrowDown className="w-3.5 h-3.5 text-[#c9a86a]" />
+          </Link>
+        </div>
+      </motion.div>
     </section>
   );
 }

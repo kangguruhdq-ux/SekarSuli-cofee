@@ -94,7 +94,7 @@ export const siteConfig: SiteConfig = {
     mapsUrl:
       "https://www.google.com/maps/search/?api=1&query=Sekarsuli+Coffee+%26+Masakan+Jawa+Banguntapan+Bantul",
     embedUrl:
-      "https://maps.google.com/maps?q=Ndalem%20Sekarsuli%2C%20Jl.%20Wonosari%20KM%208%2C%20Banguntapan%2C%20Bantul&t=&z=15&ie=UTF8&iwloc=&output=embed",
+      "https://maps.google.com/maps?q=Sekarsuli+Coffee+%26+Masakan+Jawa%2C+Jl.+Wonosari+KM+8%2C+Baturetno%2C+Banguntapan%2C+Bantul&t=&z=16&ie=UTF8&iwloc=&output=embed",
   },
   hours: {
     label: "Jam Operasional",

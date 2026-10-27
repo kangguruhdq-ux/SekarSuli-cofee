@@ -1,166 +1,131 @@
+"use client";
+
 import Image from "next/image";
-import { Camera, Music, Trees, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
-interface GalleryItem {
-  id: string;
-  src: string;
-  title: string;
-  caption: string;
-  tag: string;
-  aspect: string;
-}
-
-const GALLERY_ITEMS: GalleryItem[] = [
+const ZONES = [
   {
-    id: "gal-1",
-    src: "/images/sekarsuli-cafe-evening.jpg",
-    title: "Suasana Senja & Panggung Akustik",
-    caption: "Area kafe Sekarsuli di sore hari dengan alunan musik akustik bersahaja.",
-    tag: "Ambiance",
-    aspect: "aspect-[16/10]",
+    id: "zone-1",
+    tag: "SENJA & AKUSTIK",
+    title: "Suasana Kafe & Panggung Musik",
+    subtitle: "Alunan Melodi Sore",
+    description:
+      "Area santai berlampu hangat dengan live acoustic sore hari peneman nikmatnya kopi.",
+    image: "/images/sekarsuli-cafe-evening.jpg",
+    span: "lg:col-span-7",
   },
   {
-    id: "gal-2",
-    src: "/images/sekarsuli-joglo-exterior.jpg",
-    title: "Kemegahan Arsitektur Joglo",
-    caption: "Bangunan tradisional Joglo Jawa dengan pilar kayu jati yang kokoh dan teduh.",
-    tag: "Arsitektur",
-    aspect: "aspect-[4/3]",
+    id: "zone-2",
+    tag: "ARSITEKTUR TRADISIONAL",
+    title: "Keteduhan Pendopo Joglo",
+    subtitle: "Atap Kayu Jati Megah",
+    description:
+      "Sirkulasi udara terbuka yang sejuk dan lapang, menghadirkan nuansa pedesaan Jawa.",
+    image: "/images/sekarsuli-heritage-ambiance.jpg",
+    span: "lg:col-span-5",
   },
   {
-    id: "gal-3",
-    src: "/images/sekarsuli-drinks-matcha.jpg",
-    title: "Kreasi Minuman Pilihan",
-    caption: "Sajian minuman segar racikan barista Sekarsuli penyejuk dahaga.",
-    tag: "Minuman",
-    aspect: "aspect-[3/4]",
+    id: "zone-3",
+    tag: "KEBERSAMAAN",
+    title: "Jamuan Meja Kayu & Kudapan",
+    subtitle: "Hangatnya Santap Guyub",
+    description:
+      "Momen berkumpul bersama keluarga mencicipi Mendoan Gajah dan aneka wedangan.",
+    image: "/images/sekarsuli-food-table.jpg",
+    span: "lg:col-span-5",
   },
   {
-    id: "gal-4",
-    src: "/images/sekarsuli-food-table.jpg",
-    title: "Kudapan & Santap Bersama",
-    caption: "Momen berkumpul menikmati sajian hangat di meja kayu Ndalem Sekarsuli.",
-    tag: "Kebersamaan",
-    aspect: "aspect-square",
-  },
-  {
-    id: "gal-5",
-    src: "/images/sekarsuli-heritage-ambiance.jpg",
-    title: "Kawasan Terbuka & Ramah Keluarga",
-    caption: "Ruang terbuka beratap joglo dengan semilir angin segar kawasan Jl. Wonosari.",
-    tag: "Kawasan",
-    aspect: "aspect-[16/10]",
-  },
-  {
-    id: "gal-6",
-    src: "/images/sekarsuli-garden-walk.jpg",
-    title: "Akses Lapang & Landmark Gajah",
-    caption: "Halaman terbuka yang asri dengan ikon patung gajah ramah penyambut pengunjung.",
-    tag: "Landmark",
-    aspect: "aspect-[4/3]",
+    id: "zone-4",
+    tag: "LANDMARK IKONIK",
+    title: "Pelataran Patung Gajah",
+    subtitle: "Ruang Terbuka Ramah Anak",
+    description:
+      "Halaman luas dengan landmark patung gajah ikonis, area foto dan parkir bus yang lega.",
+    image: "/images/sekarsuli-garden-walk.jpg",
+    span: "lg:col-span-7",
   },
 ];
 
 export function AtmosphereGallery() {
   return (
     <section
-      id="suasana"
-      className="py-20 sm:py-28 bg-cream-50 relative"
-      aria-label="Galeri Suasana Sekarsuli"
+      id="atmosphere"
+      className="relative py-28 sm:py-36 bg-[#0a1510] text-[#f6f4ee] overflow-hidden content-auto scroll-mt-20 sm:scroll-mt-24 border-t border-white/10"
+      aria-label="Zona dan Suasana"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-14 sm:mb-18">
-          <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-gold-600 mb-2">
-            <Camera className="w-3.5 h-3.5" />
-            <span>RUANG & PENGALAMAN</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-normal text-coffee-950 leading-tight">
-            Keteduhan Ndalem Sekarsuli
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-coffee-700 font-light">
-            Setiap sudut menghadirkan perjumpaan antara kelapangan ruang joglo,
-            udara sejuk, alunan musik sore, dan hangatnya obrolan bersama keluarga.
-          </p>
-        </div>
-
-        {/* Feature Highlights Ribbon */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 py-6 px-4 bg-cream-100 rounded-sm border border-cream-200">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center shrink-0">
-              <Trees className="w-4 h-4 text-olive-700" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-coffee-950">Joglo Terbuka</p>
-              <p className="text-[11px] text-coffee-600">Sirkulasi udara asri</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center shrink-0">
-              <Music className="w-4 h-4 text-gold-600" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-coffee-950">Live Akustik</p>
-              <p className="text-[11px] text-coffee-600">Sore hari santai</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center shrink-0">
-              <Users className="w-4 h-4 text-coffee-700" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-coffee-950">Ramah Rombongan</p>
-              <p className="text-[11px] text-coffee-600">Area duduk lapang</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-cream-200 flex items-center justify-center shrink-0">
-              <span className="text-sm font-serif font-bold text-coffee-900">P</span>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-coffee-950">Parkir Luas</p>
-              <p className="text-[11px] text-coffee-600">Bus, mobil & motor</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Responsive Editorial Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {GALLERY_ITEMS.map((item) => (
-            <div
-              key={item.id}
-              className="group relative bg-cream-100 rounded-sm overflow-hidden border border-cream-200 hover:border-cream-300 transition-all duration-300 flex flex-col shadow-sm"
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-white/10">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex items-center gap-3 mb-3"
             >
-              {/* Image Container with Consistent Aspect */}
-              <div className="relative aspect-[16/11] overflow-hidden bg-cream-200">
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  loading="lazy"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-coffee-950/70 backdrop-blur-sm text-[10px] font-medium tracking-wider uppercase text-cream-100">
-                  {item.tag}
-                </div>
-              </div>
+              <span className="text-xs font-semibold tracking-wide-editorial uppercase text-[#c9a86a]">
+                04 • ZONA &amp; SUASANA
+              </span>
+            </motion.div>
 
-              {/* Caption Content */}
-              <div className="p-5 flex flex-col justify-between flex-grow">
-                <div>
-                  <h3 className="font-serif text-base font-semibold text-coffee-950 group-hover:text-coffee-800 transition-colors mb-1.5">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-coffee-700 leading-relaxed font-light">
-                    {item.caption}
-                  </p>
-                </div>
+            <motion.h2
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-display text-3xl sm:text-5xl md:text-6xl font-normal text-white"
+            >
+              Keteduhan di Ndalem Sekarsuli
+            </motion.h2>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-sm text-[#9ba79f] max-w-sm leading-relaxed"
+          >
+            Arsitektur semi-outdoor yang lapang memungkinkan semilir angin sejuk
+            berhembus bebas ke seluruh sudut pendopo Joglo dan pelataran.
+          </motion.p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {ZONES.map((zone, idx) => (
+            <motion.div
+              key={zone.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: idx * 0.1 }}
+              className={`${zone.span} group relative rounded-2xl overflow-hidden bg-[#10211a] border border-white/10 hover:border-[#c9a86a]/40 transition-all duration-300 min-h-[380px] sm:min-h-[440px] flex flex-col justify-end p-6 sm:p-8 shadow-xl`}
+            >
+              <Image
+                src={zone.image}
+                alt={zone.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a1510] via-[#0a1510]/50 to-transparent" />
+
+              <div className="relative z-10 flex flex-col items-start space-y-2">
+                <span className="text-[10px] font-semibold tracking-wide-editorial uppercase px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[#c9a86a]">
+                  {zone.tag}
+                </span>
+
+                <h3 className="font-display text-2xl sm:text-3xl font-normal text-white group-hover:text-[#dfbf80] transition-colors leading-tight">
+                  {zone.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-[#ded8cd] font-light max-w-md leading-relaxed">
+                  {zone.description}
+                </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
