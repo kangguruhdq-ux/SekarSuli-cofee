@@ -60,9 +60,14 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-icon.png",
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/icon.png",
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "Sekarsuli Coffee & Masakan Jawa — Merawat Rasa, Menjaga Tradisi",
@@ -140,6 +145,9 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${cinzelFont.variable} ${displayFont.variable} ${sansFont.variable}`}>
       <head>
+        <link rel="icon" href="/icon.png" type="image/png" sizes="192x192" />
+        <link rel="shortcut icon" href="/icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

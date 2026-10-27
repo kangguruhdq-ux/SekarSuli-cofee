@@ -488,13 +488,13 @@ function LedgerItemRow({
   );
 
   return (
-    <div className="flex flex-col transition-all duration-200">
+    <div className="flex flex-col">
       {/* Clickable Ledger Row */}
       <div
         onClick={onToggle}
-        className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 rounded-xl transition-all cursor-pointer relative select-none ${
+        className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 rounded-xl transition-colors duration-150 cursor-pointer relative select-none ${
           isExpanded
-            ? "bg-[#EFE6D8] border border-[#C5A059]/80 shadow-sm"
+            ? "bg-[#EFE6D8] border border-[#C5A059]/80 shadow-xs"
             : "hover:bg-[#F5EFEB] border border-transparent"
         }`}
         role="button"
@@ -510,7 +510,7 @@ function LedgerItemRow({
         {/* Left Item Name & Diamond */}
         <div className="flex items-center gap-2.5 shrink-0 z-10 pr-2">
           <span
-            className={`text-xs transition-transform duration-200 ${
+            className={`text-xs transition-transform duration-150 ${
               isExpanded
                 ? "text-[#0B1B3D] scale-125"
                 : "text-[#C5A059] group-hover:scale-125"
@@ -552,17 +552,17 @@ function LedgerItemRow({
           ) : null}
 
           <div
-            className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+            className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 ${
               isExpanded
                 ? "bg-[#0B1B3D] text-[#FAF5ED]"
                 : "bg-transparent text-[#8C6D37] group-hover:bg-[#FAF5ED]"
             }`}
           >
-            {isExpanded ? (
-              <ChevronUp className="w-3.5 h-3.5 stroke-[2.5]" />
-            ) : (
-              <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
-            )}
+            <ChevronDown
+              className={`w-3.5 h-3.5 stroke-[2.5] transition-transform duration-200 ease-out ${
+                isExpanded ? "rotate-180" : "rotate-0"
+              }`}
+            />
           </div>
         </div>
       </div>
@@ -570,16 +570,20 @@ function LedgerItemRow({
       {/* =========================================================================
           IN-PLACE EXPANDED CARD (Directly below the clicked item, NO SCROLLING UP)
          ========================================================================= */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
-            initial={{ opacity: 0, height: 0, marginTop: 0 }}
-            animate={{ opacity: 1, height: "auto", marginTop: 6 }}
-            exit={{ opacity: 0, height: 0, marginTop: 0 }}
-            transition={{ duration: 0.28, ease: "easeInOut" }}
-            className="overflow-hidden w-full"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{
+              height: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
+              opacity: { duration: 0.15, ease: "easeOut" },
+            }}
+            style={{ willChange: "height, opacity" }}
+            className="overflow-hidden w-full pt-1.5"
           >
-            <div className="p-4 rounded-2xl bg-[#FFFDF9] border-2 border-[#C5A059] shadow-md my-1.5 flex flex-col gap-3 text-left relative w-full overflow-hidden">
+            <div className="p-4 rounded-2xl bg-[#FFFDF9] border-2 border-[#C5A059] shadow-md mb-2 flex flex-col gap-3 text-left relative w-full overflow-hidden">
               {/* Close Button top-right */}
               <button
                 type="button"
