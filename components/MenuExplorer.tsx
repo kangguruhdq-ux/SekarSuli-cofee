@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
 import Image from "next/image";
 import {
   Search,
   Sparkles,
   ChevronDown,
-  ChevronUp,
   MessageCircle,
   CalendarPlus,
   X,
@@ -71,22 +70,16 @@ export function MenuExplorer() {
     );
   }, [searchQuery]);
 
-  const toggleExpand = (id: string) => {
+  const handleToggle = useCallback((id: string) => {
     setExpandedItemId((prev) => (prev === id ? null : id));
-  };
-
-  const handleAddToReservation = (itemName: string) => {
-    if (typeof window !== "undefined") {
-      window.location.href = `/reservasi?item=${encodeURIComponent(itemName)}`;
-    }
-  };
+  }, []);
 
   const whatsappNumber = siteConfig.contact.whatsappNumber || "6287830228170";
 
   return (
     <section
       id="menu"
-      className="relative py-24 sm:py-32 bg-[#0B1B3D] text-[#FAF5ED] overflow-hidden content-auto scroll-mt-20 sm:scroll-mt-24 border-t border-[#C5A059]/30"
+      className="relative py-24 sm:py-32 bg-[#0B1B3D] text-[#FAF5ED] overflow-hidden scroll-mt-20 sm:scroll-mt-24 border-t border-[#C5A059]/30"
       aria-label="Buku Menu Tradisional Sekarsuli"
     >
       {/* Subtle Royal Damask / Vintage Texture Glow */}
@@ -253,8 +246,7 @@ export function MenuExplorer() {
                       key={item.id}
                       item={item}
                       isExpanded={expandedItemId === item.id}
-                      onToggle={() => toggleExpand(item.id)}
-                      onAddToReservation={() => handleAddToReservation(item.name)}
+                      onToggle={handleToggle}
                       whatsappNumber={whatsappNumber}
                     />
                   ))}
@@ -297,10 +289,7 @@ export function MenuExplorer() {
                             key={item.id}
                             item={item}
                             isExpanded={expandedItemId === item.id}
-                            onToggle={() => toggleExpand(item.id)}
-                            onAddToReservation={() =>
-                              handleAddToReservation(item.name)
-                            }
+                            onToggle={handleToggle}
                             whatsappNumber={whatsappNumber}
                           />
                         ))}
@@ -323,10 +312,7 @@ export function MenuExplorer() {
                             key={item.id}
                             item={item}
                             isExpanded={expandedItemId === item.id}
-                            onToggle={() => toggleExpand(item.id)}
-                            onAddToReservation={() =>
-                              handleAddToReservation(item.name)
-                            }
+                            onToggle={handleToggle}
                             whatsappNumber={whatsappNumber}
                           />
                         ))}
@@ -367,10 +353,7 @@ export function MenuExplorer() {
                             key={item.id}
                             item={item}
                             isExpanded={expandedItemId === item.id}
-                            onToggle={() => toggleExpand(item.id)}
-                            onAddToReservation={() =>
-                              handleAddToReservation(item.name)
-                            }
+                            onToggle={handleToggle}
                             whatsappNumber={whatsappNumber}
                           />
                         ))}
@@ -395,10 +378,7 @@ export function MenuExplorer() {
                               key={item.id}
                               item={item}
                               isExpanded={expandedItemId === item.id}
-                              onToggle={() => toggleExpand(item.id)}
-                              onAddToReservation={() =>
-                                handleAddToReservation(item.name)
-                              }
+                              onToggle={handleToggle}
                               whatsappNumber={whatsappNumber}
                             />
                           ))}
@@ -421,10 +401,7 @@ export function MenuExplorer() {
                               key={item.id}
                               item={item}
                               isExpanded={expandedItemId === item.id}
-                              onToggle={() => toggleExpand(item.id)}
-                              onAddToReservation={() =>
-                                handleAddToReservation(item.name)
-                              }
+                              onToggle={handleToggle}
                               whatsappNumber={whatsappNumber}
                             />
                           ))}
@@ -468,20 +445,20 @@ export function MenuExplorer() {
   );
 }
 
-// Ledger Item Component with IN-PLACE EXPANSION right where clicked
-function LedgerItemRow({
+interface LedgerItemRowProps {
+  item: MenuItem;
+  isExpanded: boolean;
+  onToggle: (id: string) => void;
+  whatsappNumber: string;
+}
+
+// Ledger Item Component with IN-PLACE EXPANSION (Memoized & Hardware-Accelerated)
+const LedgerItemRow = memo(function LedgerItemRow({
   item,
   isExpanded,
   onToggle,
-  onAddToReservation,
   whatsappNumber,
-}: {
-  item: MenuItem;
-  isExpanded: boolean;
-  onToggle: () => void;
-  onAddToReservation: () => void;
-  whatsappNumber: string;
-}) {
+}: LedgerItemRowProps) {
   const quickWaMessage = encodeURIComponent(
     `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu ${item.name} (${item.category}) untuk kunjungan saya di Ndalem Sekarsuli.`
   );
@@ -490,11 +467,11 @@ function LedgerItemRow({
     <div className="flex flex-col">
       {/* Clickable Ledger Row */}
       <div
-        onClick={onToggle}
-        className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 rounded-xl transition-colors duration-150 cursor-pointer relative select-none ${
+        onClick={() => onToggle(item.id)}
+        className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 rounded-xl transition-colors duration-150 cursor-pointer relative select-none touch-manipulation ${
           isExpanded
             ? "bg-[#EFE6D8] border border-[#C5A059]/80 shadow-xs"
-            : "hover:bg-[#F5EFEB] border border-transparent"
+            : "hover:bg-[#F5EFEB] border border-transparent active:bg-[#EFE6D8]/60"
         }`}
         role="button"
         tabIndex={0}
@@ -502,7 +479,7 @@ function LedgerItemRow({
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            onToggle();
+            onToggle(item.id);
           }
         }}
       >
@@ -558,7 +535,7 @@ function LedgerItemRow({
             }`}
           >
             <ChevronDown
-              className={`w-3.5 h-3.5 stroke-[2.5] transition-transform duration-200 ease-out ${
+              className={`w-3.5 h-3.5 stroke-[2.5] transition-transform duration-150 ease-out ${
                 isExpanded ? "rotate-180" : "rotate-0"
               }`}
             />
@@ -567,33 +544,23 @@ function LedgerItemRow({
       </div>
 
       {/* =========================================================================
-          IN-PLACE EXPANDED CARD (Silky Smooth Native Hardware-Accelerated Accordion)
+          IN-PLACE EXPANDED CARD (Hardware-Accelerated Zero-Lag Accordion)
          ========================================================================= */}
       <div
-        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          isExpanded
-            ? "grid-rows-[1fr] opacity-100"
-            : "grid-rows-[0fr] opacity-0 pointer-events-none"
-        }`}
+        className={`accordion-grid ${isExpanded ? "open" : "pointer-events-none"}`}
         aria-hidden={!isExpanded}
       >
-        <div className="overflow-hidden min-h-0">
-          <div
-            className={`pt-2 pb-1.5 w-full transform transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              isExpanded
-                ? "translate-y-0 opacity-100"
-                : "-translate-y-2 opacity-0"
-            }`}
-          >
+        <div className="accordion-content">
+          <div className="pt-2 pb-1.5 w-full">
             <div className="p-4 rounded-2xl bg-[#FFFDF9] border-2 border-[#C5A059] shadow-md mb-2 flex flex-col gap-3 text-left relative w-full overflow-hidden">
               {/* Close Button top-right */}
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onToggle();
+                  onToggle(item.id);
                 }}
-                className="absolute top-3 right-3 z-20 w-6 h-6 rounded-full bg-[#FAF5ED] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] flex items-center justify-center text-xs transition-colors border border-[#C5A059]/40"
+                className="absolute top-3 right-3 z-20 w-6 h-6 rounded-full bg-[#FAF5ED] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] flex items-center justify-center text-xs transition-colors border border-[#C5A059]/40 touch-manipulation"
                 aria-label="Tutup"
               >
                 ✕
@@ -601,13 +568,14 @@ function LedgerItemRow({
 
               {/* Top Row: Thumbnail + Name + Category Badges */}
               <div className="flex items-start gap-3.5 pr-7">
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/60 shadow-xs bg-[#0B1B3D]">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/60 shadow-xs bg-[#0B1B3D] relative">
                   <Image
                     src={item.image || "/images/sekarsuli-heritage-ambiance.jpg"}
                     alt={item.name}
-                    fill
-                    sizes="80px"
-                    className="object-cover"
+                    width={80}
+                    height={80}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
@@ -641,7 +609,7 @@ function LedgerItemRow({
                 <a
                   href={`/reservasi?item=${encodeURIComponent(item.name)}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center"
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-[#0B1B3D] text-[#FAF5ED] hover:bg-[#C5A059] hover:text-[#0B1B3D] text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center touch-manipulation"
                 >
                   <CalendarPlus className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
                   <span className="truncate">PESAN DI RESERVASI</span>
@@ -653,7 +621,7 @@ function LedgerItemRow({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center"
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-cinzel font-bold tracking-wider uppercase transition-all shadow-xs text-center touch-manipulation"
                 >
                   <MessageCircle className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
                   <span className="truncate">PESAN VIA WHATSAPP</span>
@@ -665,4 +633,4 @@ function LedgerItemRow({
       </div>
     </div>
   );
-}
+});

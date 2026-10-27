@@ -53,6 +53,25 @@
     content-visibility: auto;
     contain-intrinsic-size: 1px 700px;
   }
+
+  /* Ultra-lightweight zero-lag accordion */
+  .accordion-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 160ms cubic-bezier(0, 0, 0.2, 1), opacity 140ms ease-out;
+    will-change: grid-template-rows, opacity;
+  }
+
+  .accordion-grid.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .accordion-content {
+    overflow: hidden;
+    min-height: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
