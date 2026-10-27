@@ -11,6 +11,7 @@ import {
   CalendarPlus,
   X,
   ExternalLink,
+  Camera,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -483,7 +484,7 @@ function LedgerItemRow({
   whatsappNumber: string;
 }) {
   const quickWaMessage = encodeURIComponent(
-    `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu *${item.name}* (${item.category}) untuk kunjungan saya di Ndalem Sekarsuli.`
+    `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu ${item.name} (${item.category}) untuk kunjungan saya di Ndalem Sekarsuli.`
   );
 
   return (
@@ -531,6 +532,12 @@ function LedgerItemRow({
               GAJAH
             </span>
           )}
+          <span
+            className="text-[10px] text-[#C5A059] flex items-center gap-0.5 ml-1 opacity-70 group-hover:opacity-100 transition-opacity"
+            title="Klik untuk foto & pesan"
+          >
+            <Camera className="w-3.5 h-3.5 text-[#C5A059]" />
+          </span>
         </div>
 
         {/* Dotted / Dashed Gold Hairline Leader Line */}

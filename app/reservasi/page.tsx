@@ -9,8 +9,8 @@ import {
   Calendar,
   Clock,
   Users,
-  MapPin,
-  UtensilsCrossed,
+  User,
+  Phone,
   CheckCircle2,
   ExternalLink,
   Sparkles,
@@ -23,7 +23,7 @@ import {
   Search,
   RotateCcw,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { MENU_ITEMS, MenuItem } from "@/lib/menu-data";
 import { siteConfig } from "@/lib/site-config";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -184,7 +184,7 @@ function ReservasiContent() {
       ? cartEntries.map(([item, qty]) => `${qty}x ${item}`).join(", ")
       : "Pesan langsung di tempat saat tiba";
 
-  // CLEAN TEXT-BASED WHATSAPP FORMAT (NO CORRUPTED SYMBOLS / EMOJIS)
+  // CLEAN TEXT-BASED WHATSAPP FORMAT (ZERO ASTERISKS '*' AND ZERO WEIRD CORRUPTED SYMBOLS)
   const generateBookingMessage = () => {
     const formattedMenuLines =
       cartEntries.length > 0
@@ -192,22 +192,20 @@ function ReservasiContent() {
         : "- Pesan langsung di tempat saat tiba";
 
     return (
-      `*FORM RESERVASI MEJA & MENU — SEKARSULI COFFEE*\n\n` +
-      `*Nama Pemesan:* ${name.trim() || "-"}\n` +
-      `*No. WhatsApp:* ${phone.trim() || "-"}\n` +
-      `*Tanggal Kunjungan:* ${date || "Hari Ini / Segera"}\n` +
-      `*Waktu Kedatangan:* ${time} WIB\n` +
-      `*Jumlah Tamu:* ${guests}\n` +
-      `*Pilihan Area:* ${selectedArea}\n\n` +
-      `*Pesanan Menu Awal:*\n${formattedMenuLines}\n\n` +
-      (notes.trim() ? `*Catatan Khusus:* ${notes.trim()}\n\n` : "") +
+      `FORM RESERVASI MEJA & MENU — SEKARSULI COFFEE\n\n` +
+      `Nama Pemesan: ${name.trim() || "-"}\n` +
+      `No. WhatsApp: ${phone.trim() || "-"}\n` +
+      `Tanggal Kunjungan: ${date || "Hari Ini / Segera"}\n` +
+      `Waktu Kedatangan: ${time} WIB\n` +
+      `Jumlah Tamu: ${guests}\n` +
+      `Pilihan Area: ${selectedArea}\n\n` +
+      `Pesanan Menu Awal:\n${formattedMenuLines}\n\n` +
+      (notes.trim() ? `Catatan Khusus: ${notes.trim()}\n\n` : "") +
       `Mohon konfirmasi ketersediaan meja dan sajian kami di Ndalem Sekarsuli, Jl. Wonosari KM 8, Banguntapan, Bantul. Matur nuwun!`
     );
   };
 
   const whatsappNumber = siteConfig.contact.whatsappNumber || "6287830228170";
-  const whatsappDisplay =
-    siteConfig.contact.whatsappDisplay || "0878-3022-8170";
 
   const handleSendWhatsApp = () => {
     const msg = encodeURIComponent(generateBookingMessage());
@@ -218,7 +216,7 @@ function ReservasiContent() {
     e.preventDefault();
     setSubmitted(true);
 
-    // Scroll to the top of the card smoothly so the user sees confirmation immediately without scrolling
+    // Smooth scroll to top of confirmation card
     if (typeof window !== "undefined") {
       const cardEl = document.getElementById("reservation-card");
       if (cardEl) {
@@ -226,7 +224,7 @@ function ReservasiContent() {
       }
     }
 
-    // Auto open WhatsApp with the clean text template
+    // Auto open WhatsApp with zero asterisks clean format
     handleSendWhatsApp();
   };
 
@@ -243,12 +241,17 @@ function ReservasiContent() {
 
   return (
     <div className="min-h-screen bg-[#071229] text-[#FAF5ED] flex flex-col selection:bg-[#C5A059] selection:text-[#0B1B3D]">
-      {/* Top Navigation Bar with Back Button */}
-      <header className="sticky top-0 z-40 bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#C5A059]/25 py-3.5 sm:py-4 shadow-xl">
+      {/* Top Navigation Bar with Entrance Animation */}
+      <motion.header
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="sticky top-0 z-40 bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#C5A059]/25 py-3.5 sm:py-4 shadow-xl"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
-          {/* Logo Brand */}
+          {/* Logo Brand with Ivory Medallion */}
           <Link href="/#hero" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-sm p-1.5 flex items-center justify-center">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-sm p-1.5 flex items-center justify-center transition-transform group-hover:scale-105">
               <Image
                 src="/images/logo-elephant-transparent.png"
                 alt="Logo Sekarsuli"
@@ -276,9 +279,9 @@ function ReservasiContent() {
             <span>KEMBALI KE BERANDA</span>
           </Link>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Main Reservation Form Section */}
+      {/* Main Reservation Section with Rich Staggered Animations */}
       <main className="flex-1 py-10 sm:py-16 relative overflow-hidden">
         {/* Ambient Royal Gold Glow */}
         <div
@@ -287,8 +290,13 @@ function ReservasiContent() {
         />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-          {/* Page Headline */}
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          {/* Page Headline with Animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
+          >
             <div className="flex items-center justify-center gap-3 mb-3">
               <span className="w-8 h-[1px] bg-[#C5A059]" />
               <span className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059]">
@@ -304,23 +312,26 @@ function ReservasiContent() {
               Rencanakan waktu kunjungan Anda dan pilih menu yang ingin disiapkan
               lebih awal di Ndalem Sekarsuli, Jl. Wonosari KM 8.
             </p>
-          </div>
+          </motion.div>
 
           {/* =========================================================================
-              MAIN ROYAL PARCHMENT CARD (Switches directly to clean confirmation on submit)
+              MAIN ROYAL PARCHMENT CARD WITH ENTRANCE ANIMATION
              ========================================================================= */}
-          <div
+          <motion.div
             id="reservation-card"
+            initial={{ opacity: 0, y: 35, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="bg-[#FAF5ED] text-[#1B2430] rounded-3xl p-6 sm:p-10 md:p-12 border-2 sm:border-4 border-[#C5A059] shadow-[0_20px_60px_rgba(0,0,0,0.6)] relative overflow-hidden scroll-mt-24"
           >
             <div className="absolute inset-3 border border-[#C5A059]/40 rounded-2xl pointer-events-none" />
 
-            {/* IF SUBMITTED: SHOW ON-SCREEN CONFIRMATION TICKET IMMEDIATELY (NO CONFUSING MODAL) */}
+            {/* IF SUBMITTED: SHOW ON-SCREEN CONFIRMATION TICKET IMMEDIATELY */}
             {submitted ? (
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.35 }}
                 className="relative z-10 max-w-2xl mx-auto text-center py-4"
               >
                 {/* Success Icon */}
@@ -337,7 +348,7 @@ function ReservasiContent() {
                 </h2>
 
                 <p className="text-xs sm:text-sm text-[#605A55] max-w-md mx-auto mb-6 font-light">
-                  WhatsApp resmi Sekarsuli telah dibuka secara otomatis. Jika chat belum muncul di layar Anda, klik tombol hijau di bawah ini.
+                  WhatsApp resmi Sekarsuli telah dibuka otomatis. Jika chat belum muncul di layar Anda, klik tombol hijau di bawah ini.
                 </p>
 
                 {/* Summary Box */}
@@ -429,10 +440,14 @@ function ReservasiContent() {
                 </div>
               </motion.div>
             ) : (
-              /* THE RESERVATION INPUT FORM */
+              /* THE RESERVATION INPUT FORM WITH STAGGERED ANIMATIONS */
               <form onSubmit={handleSubmit} className="relative z-10 space-y-8 sm:space-y-10">
                 {/* STEP 1: IDENTITAS */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
                   <div className="flex items-center gap-2 mb-4 pb-2 border-b border-[#C5A059]/30">
                     <span className="text-[#C5A059] text-base">❖</span>
                     <h2 className="font-cinzel text-sm sm:text-base font-bold tracking-wider uppercase text-[#0B1B3D]">
@@ -448,15 +463,20 @@ function ReservasiContent() {
                       >
                         Nama Lengkap *
                       </label>
-                      <input
-                        id="res-name"
-                        type="text"
-                        required
-                        placeholder="Contoh: Budi Santoso"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none focus:ring-1 focus:ring-[#0B1B3D] transition-all"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          id="res-name"
+                          type="text"
+                          required
+                          placeholder="Contoh: Budi Santoso"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/50 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none focus:ring-1 focus:ring-[#0B1B3D] transition-all"
+                        />
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8C6D37] pointer-events-none">
+                          <User className="w-4 h-4 text-[#C5A059]" />
+                        </div>
+                      </div>
                     </div>
 
                     <div>
@@ -466,21 +486,30 @@ function ReservasiContent() {
                       >
                         Nomor WhatsApp Pemesan *
                       </label>
-                      <input
-                        id="res-phone"
-                        type="tel"
-                        required
-                        placeholder="Contoh: 08123456789"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none focus:ring-1 focus:ring-[#0B1B3D] transition-all"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          id="res-phone"
+                          type="tel"
+                          required
+                          placeholder="Contoh: 08123456789"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/50 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none focus:ring-1 focus:ring-[#0B1B3D] transition-all"
+                        />
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8C6D37] pointer-events-none">
+                          <Phone className="w-4 h-4 text-[#C5A059]" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* STEP 2: JADWAL & AREA */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
                   <div className="flex items-center gap-2 mb-4 pb-2 border-b border-[#C5A059]/30">
                     <span className="text-[#C5A059] text-base">❖</span>
                     <h2 className="font-cinzel text-sm sm:text-base font-bold tracking-wider uppercase text-[#0B1B3D]">
@@ -489,6 +518,7 @@ function ReservasiContent() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                    {/* TANGGAL KUNJUNGAN DENGAN IKON KALENDER JELAS & KLIK */}
                     <div>
                       <label
                         htmlFor="res-date"
@@ -496,16 +526,44 @@ function ReservasiContent() {
                       >
                         Tanggal Kunjungan *
                       </label>
-                      <input
-                        id="res-date"
-                        type="date"
-                        required
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          id="res-date"
+                          type="date"
+                          required
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              (e.target as HTMLInputElement).showPicker?.();
+                            } catch {}
+                          }}
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/60 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs cursor-pointer [color-scheme:light]"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const input = document.getElementById(
+                              "res-date"
+                            ) as HTMLInputElement;
+                            if (input) {
+                              try {
+                                input.showPicker?.();
+                              } catch {
+                                input.focus();
+                              }
+                            }
+                          }}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-[#FAF5ED] border border-[#C5A059]/60 flex items-center justify-center text-[#8C6D37] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] hover:border-[#0B1B3D] transition-colors shadow-xs"
+                          title="Klik untuk memilih tanggal"
+                          aria-label="Pilih Tanggal"
+                        >
+                          <Calendar className="w-4 h-4 text-[#C5A059]" />
+                        </button>
+                      </div>
                     </div>
 
+                    {/* JAM KEDATANGAN DENGAN IKON JAM */}
                     <div>
                       <label
                         htmlFor="res-time"
@@ -513,20 +571,26 @@ function ReservasiContent() {
                       >
                         Jam Kedatangan *
                       </label>
-                      <select
-                        id="res-time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all"
-                      >
-                        {TIME_SLOTS.map((t) => (
-                          <option key={t} value={t}>
-                            {t} WIB
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative flex items-center">
+                        <select
+                          id="res-time"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/60 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs appearance-none cursor-pointer"
+                        >
+                          {TIME_SLOTS.map((t) => (
+                            <option key={t} value={t}>
+                              {t} WIB
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8C6D37] pointer-events-none">
+                          <Clock className="w-4 h-4 text-[#C5A059]" />
+                        </div>
+                      </div>
                     </div>
 
+                    {/* JUMLAH TAMU DENGAN IKON USERS */}
                     <div>
                       <label
                         htmlFor="res-guests"
@@ -534,19 +598,24 @@ function ReservasiContent() {
                       >
                         Perkiraan Jumlah Tamu *
                       </label>
-                      <select
-                        id="res-guests"
-                        value={guests}
-                        onChange={(e) => setGuests(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all"
-                      >
-                        <option value="1 - 2 Orang">1 - 2 Orang (Santai / Pasangan)</option>
-                        <option value="3 - 5 Orang">3 - 5 Orang (Keluarga Kecil)</option>
-                        <option value="6 - 10 Orang">6 - 10 Orang (Keluarga Besar)</option>
-                        <option value="11 - 20 Orang">11 - 20 Orang (Rombongan / Kantor)</option>
-                        <option value="21 - 50 Orang">21 - 50 Orang (Acara Komunitas)</option>
-                        <option value="50+ Orang">50+ Orang (Hajatan / Gathering)</option>
-                      </select>
+                      <div className="relative flex items-center">
+                        <select
+                          id="res-guests"
+                          value={guests}
+                          onChange={(e) => setGuests(e.target.value)}
+                          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white border border-[#C5A059]/60 text-xs sm:text-sm text-[#0B1B3D] focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs appearance-none cursor-pointer"
+                        >
+                          <option value="1 - 2 Orang">1 - 2 Orang (Santai / Pasangan)</option>
+                          <option value="3 - 5 Orang">3 - 5 Orang (Keluarga Kecil)</option>
+                          <option value="6 - 10 Orang">6 - 10 Orang (Keluarga Besar)</option>
+                          <option value="11 - 20 Orang">11 - 20 Orang (Rombongan / Kantor)</option>
+                          <option value="21 - 50 Orang">21 - 50 Orang (Acara Komunitas)</option>
+                          <option value="50+ Orang">50+ Orang (Hajatan / Gathering)</option>
+                        </select>
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8C6D37] pointer-events-none">
+                          <Users className="w-4 h-4 text-[#C5A059]" />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -596,10 +665,14 @@ function ReservasiContent() {
                       })}
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* STEP 3: PILIH MENU MAKANAN (44 VERIFIED ITEMS, 100% EMPTY INITIALLY) */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
                   <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#C5A059]/30">
                     <div className="flex items-center gap-2">
                       <span className="text-[#C5A059] text-base">❖</span>
@@ -626,7 +699,7 @@ function ReservasiContent() {
                         placeholder="Cari menu di sini..."
                         value={menuSearch}
                         onChange={(e) => setMenuSearch(e.target.value)}
-                        className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-[#C5A059]/40 text-xs text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none"
+                        className="w-full pl-9 pr-3 py-2 rounded-xl bg-white border border-[#C5A059]/50 text-xs text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none shadow-xs"
                       />
                     </div>
 
@@ -684,7 +757,11 @@ function ReservasiContent() {
 
                   {/* Cart Summary List (Only appears if items are actually selected) */}
                   {cartEntries.length > 0 && (
-                    <div className="mt-4 p-4 rounded-2xl bg-[#EFE6D8] border border-[#C5A059]/50">
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="mt-4 p-4 rounded-2xl bg-[#EFE6D8] border border-[#C5A059]/50 overflow-hidden"
+                    >
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-cinzel font-bold text-[#0B1B3D] uppercase tracking-wider">
                           Daftar Menu yang Dipesan ({totalItemsCount} porsi):
@@ -740,12 +817,16 @@ function ReservasiContent() {
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
+                </motion.div>
 
-                {/* STEP 4: CATATAN KHUSUS */}
-                <div>
+                {/* STEP 4: CATATAN KHUSUS & SUBMIT */}
+                <motion.div
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
                   <label
                     htmlFor="res-notes"
                     className="block text-xs font-cinzel font-semibold uppercase text-[#0B1B3D] mb-1.5"
@@ -758,23 +839,28 @@ function ReservasiContent() {
                     placeholder="Contoh: Meja dekat stopkontak, ada rombongan lansia, request dekorasi ultah sederhana..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/40 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/50 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs"
                   />
-                </div>
+                </motion.div>
 
                 {/* SUBMIT BUTTON */}
-                <div className="pt-4 border-t border-[#C5A059]/30 flex flex-col sm:flex-row items-center justify-end gap-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  className="pt-4 border-t border-[#C5A059]/30 flex flex-col sm:flex-row items-center justify-end gap-4"
+                >
                   <button
                     type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#0B1B3D] hover:bg-[#C5A059] text-[#FAF5ED] hover:text-[#0B1B3D] font-cinzel font-bold text-xs tracking-editorial uppercase transition-all duration-300 shadow-xl"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#0B1B3D] hover:bg-[#C5A059] text-[#FAF5ED] hover:text-[#0B1B3D] font-cinzel font-bold text-xs tracking-editorial uppercase transition-all duration-300 shadow-xl hover:scale-105"
                   >
                     <Sparkles className="w-4 h-4 text-[#C5A059]" />
                     <span>KIRIM RESERVASI KE WHATSAPP</span>
                   </button>
-                </div>
+                </motion.div>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </main>
 

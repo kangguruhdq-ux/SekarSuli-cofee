@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Camera } from "lucide-react";
 import { motion } from "framer-motion";
 
 const ZONES = [
@@ -62,10 +63,11 @@ export function AtmosphereGallery() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex items-center gap-3 mb-3"
+              className="flex items-center gap-2.5 mb-3"
             >
+              <Camera className="w-4 h-4 text-[#C5A059]" />
               <span className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059]">
-                04 • ZONA &amp; SUASANA
+                04 • GALERI ZONA &amp; SUASANA JOGLO
               </span>
             </motion.div>
 
