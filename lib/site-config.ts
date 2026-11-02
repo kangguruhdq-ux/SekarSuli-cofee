@@ -53,12 +53,12 @@ export const siteConfig: SiteConfig = {
     "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di Sekarsuli.",
   heroHeadline: "Merawat Rasa, Menjaga Tradisi.",
   heroDescription:
-    "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di kawasan Ndalem Sekarsuli, Banguntapan, Bantul.",
+    "Dari secangkir kopi hingga sajian masakan Jawa, temukan ruang untuk menikmati rasa dan kebersamaan di Sekarsuli Coffee, Banguntapan, Bantul.",
   story: {
     eyebrow: "PENGALAMAN & NILAI",
     headline: "Perjumpaan Rasa Nusantara dan Teduhnya Joglo Jawa",
     paragraphs: [
-      "Di tengah ritme kehidupan Yogyakarta yang terus bergerak, Sekarsuli hadir sebagai tempat bernaung yang teduh. Mengakar pada keelokan arsitektur Joglo di kawasan Ndalem Sekarsuli, kami menyajikan kehangatan masakan Jawa rumahan berdampingan dengan seduhan kopi masa kini.",
+      "Di tengah ritme kehidupan Yogyakarta yang terus bergerak, Sekarsuli hadir sebagai tempat bernaung yang teduh. Mengakar pada keelokan arsitektur Joglo di Sekarsuli Coffee, kami menyajikan kehangatan masakan Jawa rumahan berdampingan dengan seduhan kopi masa kini.",
       "Setiap sudut dirancang untuk merayakan kelambatan: menikmati seduhan kopi beraroma mantap, mencicipi wedangan hangat, serta berkumpul bersama keluarga dan sahabat di bawah atap kayu jati yang sarat ketenangan.",
     ],
     pillars: [
@@ -84,11 +84,11 @@ export const siteConfig: SiteConfig = {
   },
   location: {
     title: "Kunjungi Kami",
-    venueName: "Ndalem Sekarsuli",
+    venueName: "Sekarsuli Coffee",
     address: "Jl. Wonosari KM 8, Baturetno, Banguntapan, Bantul, DI Yogyakarta",
     fullAddress:
-      "Ndalem Sekarsuli, Jl. Wonosari KM 8, Baturetno, Banguntapan, Bantul, Daerah Istimewa Yogyakarta 55197",
-    landmark: "Kawasan Ndalem Sekarsuli, tepi jalur utama Jogja – Wonosari KM 8",
+      "Sekarsuli Coffee, Jl. Wonosari KM 8, Baturetno, Banguntapan, Bantul, Daerah Istimewa Yogyakarta 55197",
+    landmark: "Sekarsuli Coffee, tepi jalur utama Jogja – Wonosari KM 8",
     mapsSearchQuery: "Sekarsuli Coffee & Masakan Jawa",
     mapsUrl:
       "https://www.google.com/maps/search/?api=1&query=Sekarsuli+Coffee+%26+Masakan+Jawa+Banguntapan+Bantul",
@@ -105,7 +105,7 @@ export const siteConfig: SiteConfig = {
     instagramHandle: "@sekarsulicoffee",
   },
   contact: {
-    // Nomor WhatsApp resmi Ndalem Sekarsuli (format internasional tanpa tanda plus)
+    // Nomor WhatsApp resmi Sekarsuli Coffee (format internasional tanpa tanda plus)
     whatsappNumber: "6287830228170",
     whatsappDisplay: "0878-3022-8170",
     whatsappMessage:

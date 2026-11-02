@@ -37,7 +37,7 @@ export function StatementSection() {
             <span className="italic font-light text-[#8C6D37]">
               melambatkan waktu
             </span>
-            . Menyatu dengan semilir angin Ndalem Sekarsuli, keramahan Joglo, dan
+            . Menyatu dengan semilir angin Sekarsuli Coffee, keramahan Joglo, dan
             ketulusan rasa masakan Jawa.
           </motion.h2>
 
@@ -51,11 +51,11 @@ export function StatementSection() {
               className="flex flex-col space-y-3"
             >
               <span className="text-[11px] font-cinzel font-bold tracking-editorial uppercase text-[#8C6D37]">
-                AKAR NDALEM SEKARSULI
+                AKAR SEKARSULI COFFEE
               </span>
               <p className="text-sm sm:text-base leading-relaxed text-[#605A55] font-light">
-                Berakar pada keanggunan arsitektur tradisional Jawa di kawasan Ndalem
-                Sekarsuli, Jl. Wonosari KM 8, menghadirkan perjumpaan harmoni
+                Berakar pada keanggunan arsitektur tradisional Jawa di Sekarsuli
+                Coffee, Jl. Wonosari KM 8, menghadirkan perjumpaan harmoni
                 antara budaya ngopi kontemporer dan kuliner Jawa.
               </p>
             </motion.div>

@@ -63,7 +63,7 @@ export function VisitSection() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-normal text-[#0B1B3D]"
             >
-              Ndalem Sekarsuli di Banguntapan, Bantul
+              Sekarsuli Coffee di Banguntapan, Bantul
             </motion.h2>
           </div>
 
@@ -74,9 +74,9 @@ export function VisitSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm text-[#605A55] max-w-sm leading-relaxed font-light"
           >
-            Sekarsuli Coffee hadir di kawasan asri Ndalem Sekarsuli, Jl. Wonosari
-            KM 8 — menghadirkan oase Joglo Jawa, live musik akustik, dan sajian
-            kuliner pilihan dengan area parkir yang sangat luas.
+            Sekarsuli Coffee hadir di kawasan asri Jl. Wonosari KM 8,
+            Banguntapan, Bantul — menghadirkan oase Joglo Jawa, live musik
+            akustik, dan sajian kuliner pilihan dengan area parkir yang sangat luas.
           </motion.p>
         </div>
 
@@ -224,7 +224,7 @@ export function VisitSection() {
               {/* Clean Pin-Only Embed */}
               <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full bg-[#FAF5ED]">
                 <iframe
-                  title="Posisi Sekarsuli Coffee & Masakan Jawa di Ndalem Sekarsuli Bantul"
+                  title="Posisi Sekarsuli Coffee & Masakan Jawa di Banguntapan Bantul"
                   src={location.embedUrl}
                   width="100%"
                   height="100%"

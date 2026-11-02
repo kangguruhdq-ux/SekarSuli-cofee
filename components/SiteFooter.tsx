@@ -36,7 +36,7 @@ export function SiteFooter() {
             </Link>
 
             <p className="text-xs sm:text-sm text-[#FAF5ED]/70 font-light leading-relaxed max-w-sm">
-              Oase kopi dan tradisi kuliner Jawa di kawasan Ndalem Sekarsuli.
+              Oase kopi dan tradisi kuliner Jawa di Sekarsuli Coffee.
               Menyatukan keteduhan arsitektur Joglo, aneka wedangan rempah, dan
               seduhan kopi kontemporer di Yogyakarta.
             </p>

@@ -94,7 +94,7 @@ export function MenuExplorer() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <span className="w-8 h-[1px] bg-[#C5A059]" />
             <span className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059]">
-              BUKU MENU TRADISIONAL • NDALEM SEKARSULI
+              BUKU MENU TRADISIONAL • SEKARSULI COFFEE
             </span>
             <span className="w-8 h-[1px] bg-[#C5A059]" />
           </div>
@@ -460,7 +460,7 @@ const LedgerItemRow = memo(function LedgerItemRow({
   whatsappNumber,
 }: LedgerItemRowProps) {
   const quickWaMessage = encodeURIComponent(
-    `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu ${item.name} (${item.category}) untuk kunjungan saya di Ndalem Sekarsuli.`
+    `Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya dan memesan menu ${item.name} (${item.category}) untuk kunjungan saya di Sekarsuli Coffee.`
   );
 
   return (
@@ -600,7 +600,7 @@ const LedgerItemRow = memo(function LedgerItemRow({
               {/* Description Row */}
               <p className="text-xs text-[#605A55] font-light leading-relaxed">
                 {item.description ||
-                  "Racikan istimewa khas Sekarsuli Coffee & Masakan Jawa. Menggunakan rempah alami dan bahan berkualitas di Ndalem Sekarsuli, Banguntapan, Bantul."}
+                  "Racikan istimewa khas Sekarsuli Coffee & Masakan Jawa. Menggunakan rempah alami dan bahan berkualitas di Sekarsuli Coffee, Banguntapan, Bantul."}
               </p>
 
               {/* Practical Direct Action Buttons — Grid to avoid any clipping */}

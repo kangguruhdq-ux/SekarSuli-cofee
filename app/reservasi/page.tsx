@@ -201,7 +201,7 @@ function ReservasiContent() {
       `Pilihan Area: ${selectedArea}\n\n` +
       `Pesanan Menu Awal:\n${formattedMenuLines}\n\n` +
       (notes.trim() ? `Catatan Khusus: ${notes.trim()}\n\n` : "") +
-      `Mohon konfirmasi ketersediaan meja dan sajian kami di Ndalem Sekarsuli, Jl. Wonosari KM 8, Banguntapan, Bantul. Matur nuwun!`
+      `Mohon konfirmasi ketersediaan meja dan sajian kami di Sekarsuli Coffee, Jl. Wonosari KM 8, Banguntapan, Bantul. Matur nuwun!`
     );
   };
 
@@ -308,7 +308,7 @@ function ReservasiContent() {
             </h1>
             <p className="mt-3 text-xs sm:text-sm text-[#FAF5ED]/70 font-light max-w-lg mx-auto">
               Rencanakan waktu kunjungan Anda dan pilih menu yang ingin disiapkan
-              lebih awal di Ndalem Sekarsuli, Jl. Wonosari KM 8.
+              lebih awal di Sekarsuli Coffee, Jl. Wonosari KM 8.
             </p>
           </motion.div>
 
@@ -620,7 +620,7 @@ function ReservasiContent() {
                   {/* Seating Area Grid */}
                   <div className="mt-5">
                     <label className="block text-xs font-cinzel font-semibold uppercase text-[#0B1B3D] mb-2.5">
-                      Pilihan Area Ndalem Sekarsuli
+                      Pilihan Area Sekarsuli Coffee
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {SEATING_AREAS.map((a) => {
@@ -685,7 +685,7 @@ function ReservasiContent() {
 
                   <p className="text-xs text-[#605A55] mb-4 font-light">
                     Pilih makanan dan minuman yang ingin disiapkan terlebih dahulu
-                    saat Anda tiba di Ndalem Sekarsuli (opsional):
+                    saat Anda tiba di Sekarsuli Coffee (opsional):
                   </p>
 
                   {/* Search & Category Filter */}

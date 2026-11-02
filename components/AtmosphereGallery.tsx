@@ -78,7 +78,7 @@ export function AtmosphereGallery() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-normal text-[#FAF5ED]"
             >
-              Keteduhan di Ndalem Sekarsuli
+              Keteduhan di Sekarsuli Coffee
             </motion.h2>
           </div>
 

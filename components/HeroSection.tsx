@@ -23,7 +23,7 @@ export function HeroSection() {
         >
           <Image
             src="/images/sekarsuli-joglo-panorama.jpg"
-            alt="Panorama Senja Ndalem Sekarsuli Coffee & Masakan Jawa"
+            alt="Panorama Senja Sekarsuli Coffee & Masakan Jawa"
             fill
             priority
             sizes="100vw"
@@ -50,7 +50,7 @@ export function HeroSection() {
           >
             <span className="w-8 h-[1px] bg-[#C5A059]" />
             <span className="text-[11px] sm:text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#DFBA75]">
-              NDALEM SEKARSULI • JOGLO &amp; MASAKAN JAWA
+              SEKARSULI COFFEE • JOGLO &amp; MASAKAN JAWA
             </span>
           </motion.div>
 

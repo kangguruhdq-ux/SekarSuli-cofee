@@ -33,8 +33,8 @@ export function ReservationHomeCTA() {
 
         {/* Description as requested */}
         <p className="mt-4 text-sm sm:text-base text-[#FAF5ED]/80 font-light max-w-xl mx-auto leading-relaxed">
-          Rencanakan kunjungan Anda bersama keluarga atau kolega di Ndalem
-          Sekarsuli. Nikmati keteduhan arsitektur Joglo, aneka wedangan rempah,
+          Rencanakan kunjungan Anda bersama keluarga atau kolega di Sekarsuli
+          Coffee. Nikmati keteduhan arsitektur Joglo, aneka wedangan rempah,
           dan sajian kuliner khas Jawa untuk momen istimewa Anda.
         </p>
 

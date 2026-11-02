@@ -61,7 +61,7 @@ const MOBILE_NAV_LINKS = [
   {
     href: "/#story",
     label: "KISAH",
-    subtitle: "Identitas Ndalem Sekarsuli",
+    subtitle: "Identitas Sekarsuli Coffee",
     icon: BookOpen,
   },
   {

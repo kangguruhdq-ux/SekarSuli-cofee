@@ -35,7 +35,7 @@ export function StorySection() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display text-3xl sm:text-5xl md:text-6xl font-normal leading-tight text-[#0B1B3D]"
           >
-            Tumbuh di Ndalem Sekarsuli,
+            Tumbuh di Sekarsuli Coffee,
             <br />
             <span className="italic font-light text-[#8C6D37]">
               Merawat Tradisi Rasa.
@@ -56,7 +56,7 @@ export function StorySection() {
             >
               <Image
                 src="/images/sekarsuli-joglo-exterior.jpg"
-                alt="Arsitektur Pendopo Joglo Ndalem Sekarsuli"
+                alt="Arsitektur Pendopo Joglo Sekarsuli Coffee"
                 fill
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover"
@@ -64,7 +64,7 @@ export function StorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex items-center justify-between text-white text-xs">
                 <span className="font-cinzel font-semibold tracking-wide-editorial uppercase text-[10px] bg-[#0B1B3D]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#C5A059]/40 text-[#FAF5ED]">
-                  PENDOPO JOGLO UTAMA • NDALEM SEKARSULI
+                  PENDOPO JOGLO UTAMA • SEKARSULI COFFEE
                 </span>
                 <span className="hidden sm:inline font-mono text-[10px] opacity-80">
                   JL. WONOSARI KM 8
@@ -99,8 +99,8 @@ export function StorySection() {
                 IKON GAJAH &amp; PERSINGGAHAN NYAMAN
               </span>
               <p className="text-xs sm:text-sm text-[#605A55] leading-relaxed font-light">
-                Dihiasi landmark patung gajah ramah di pelataran depan, kawasan
-                Ndalem Sekarsuli menjadi oase persinggahan favorit bagi pelancong
+                Dihiasi landmark patung gajah ramah di pelataran depan,
+                Sekarsuli Coffee menjadi oase persinggahan favorit bagi pelancong
                 arah Wonosari–Jogja, rombongan keluarga, maupun penikmat kopi senja.
               </p>
             </motion.div>

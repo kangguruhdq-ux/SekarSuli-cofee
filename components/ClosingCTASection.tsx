@@ -52,7 +52,7 @@ export function ClosingCTASection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-xs font-cinzel font-semibold tracking-wide-editorial uppercase text-[#C5A059] mb-4"
         >
-          KERAMAHAN NDALEM SEKARSULI
+          KERAMAHAN SEKARSULI COFFEE
         </motion.span>
 
         {/* Headline */}
