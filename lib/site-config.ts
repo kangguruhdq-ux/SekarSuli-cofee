@@ -107,7 +107,7 @@ export const siteConfig: SiteConfig = {
   contact: {
     // Nomor WhatsApp resmi Sekarsuli Coffee (format internasional tanpa tanda plus)
     whatsappNumber: "6287830228170",
-    whatsappDisplay: "0878-3022-8170",
+    whatsappDisplay: "+62 878-3022-8170",
     whatsappMessage:
       "Halo Sekarsuli Coffee & Masakan Jawa, saya ingin bertanya tentang menu dan reservasi kunjungan.",
   },

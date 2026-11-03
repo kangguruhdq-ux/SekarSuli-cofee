@@ -22,12 +22,12 @@ export function HeroSection() {
           className="relative w-full h-full"
         >
           <Image
-            src="/images/sekarsuli-joglo-panorama.jpg"
-            alt="Panorama Senja Sekarsuli Coffee & Masakan Jawa"
+            src="/images/hero-sekarsuli.jpg"
+            alt="Suasana Asri Sekarsuli Coffee & Masakan Jawa"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_55%]"
+            className="object-cover object-center"
           />
           {/* Royal Navy & Gold Dark Gradient Vignette */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D] via-[#071229]/65 to-[#071229]/50" />

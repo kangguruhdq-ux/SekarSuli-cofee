@@ -1,30 +1,30 @@
 "use client";
 
-import { useState, useEffect, useMemo, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
-  ArrowLeft,
   Calendar,
   Clock,
   Users,
   User,
   Phone,
-  CheckCircle2,
-  ExternalLink,
   Sparkles,
   MessageCircle,
+  CheckCircle2,
+  ExternalLink,
+  ArrowLeft,
   Copy,
   Check,
+  RotateCcw,
   Plus,
   Minus,
   Trash2,
   Search,
-  RotateCcw,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { MENU_ITEMS, MenuItem } from "@/lib/menu-data";
+import { motion } from "framer-motion";
+import { MENU_ITEMS, formatRupiah } from "@/lib/menu-data";
 import { siteConfig } from "@/lib/site-config";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -43,36 +43,23 @@ const TIME_SLOTS = [
   "21:00",
 ];
 
+// Pilihan Area Sekarsuli Coffee: HANYA 1 PILIHAN SESUAI INSTRUKSI RESMI
 const SEATING_AREAS = [
   {
     id: "joglo",
     name: "Pendopo Joglo Utama",
-    desc: "Suasana sakral joglo kayu jati, teduh dan berangin sejuk",
-  },
-  {
-    id: "gazebo",
-    name: "Pelataran Gazebo Asri",
-    desc: "Area taman terbuka dengan nuansa asri dan santai",
-  },
-  {
-    id: "akustik",
-    name: "Area Dekat Panggung Akustik",
-    desc: "Menikmati alunan musik live & suasana sore istimewa",
-  },
-  {
-    id: "rombongan",
-    name: "Area Meja Panjang Rombongan",
-    desc: "Untuk keluarga besar, arisan, reuni, atau pertemuan kantor",
+    desc: "Suasana sakral joglo kayu jati, teduh dan berangin sejuk.",
   },
 ];
 
 type MenuFilterCategory =
   | "SEMUA"
-  | "SNACK"
-  | "MINUMAN"
+  | "MENU KHAS & BAKMI"
   | "COFFEE"
   | "NON COFFEE"
-  | "REFRESHING & TEA";
+  | "TEA & REFRESHING"
+  | "WEDANGAN & MINUMAN"
+  | "SNACK";
 
 export default function ReservasiPage() {
   return (
@@ -97,12 +84,11 @@ function ReservasiContent() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("16:00");
   const [guests, setGuests] = useState("3 - 5 Orang");
-  const [selectedArea, setSelectedArea] = useState(SEATING_AREAS[0].name);
+  const [selectedArea] = useState(SEATING_AREAS[0].name);
   const [notes, setNotes] = useState("");
 
-  // WAJIB KOSONG SEMUA SECARA DEFAULT (ZERO PRE-SELECTION BUG)
+  // Cart: item name -> quantity
   const [cart, setCart] = useState<{ [itemName: string]: number }>({});
-
   const [menuFilter, setMenuFilter] = useState<MenuFilterCategory>("SEMUA");
   const [menuSearch, setMenuSearch] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -147,21 +133,24 @@ function ReservasiContent() {
     });
   };
 
-  // Filtered menu list for 44 verified items
+  // Filtered menu items for all 98 items
   const visibleMenuItems = useMemo(() => {
     return MENU_ITEMS.filter((item) => {
       let matchesCat = true;
-      if (menuFilter === "COFFEE") matchesCat = item.category === "Coffee";
-      else if (menuFilter === "NON COFFEE")
+      if (menuFilter === "MENU KHAS & BAKMI") {
+        matchesCat = item.category === "Menu Khas" || item.category === "Bakmi";
+      } else if (menuFilter === "COFFEE") {
+        matchesCat = item.category === "Coffee";
+      } else if (menuFilter === "NON COFFEE") {
         matchesCat = item.category === "Non Coffee";
-      else if (menuFilter === "SNACK") matchesCat = item.category === "Snack";
-      else if (menuFilter === "MINUMAN")
-        matchesCat = item.category === "Minuman";
-      else if (menuFilter === "REFRESHING & TEA")
+      } else if (menuFilter === "TEA & REFRESHING") {
+        matchesCat = item.category === "Tea" || item.category === "Refreshing";
+      } else if (menuFilter === "WEDANGAN & MINUMAN") {
         matchesCat =
-          item.category === "Refreshing" ||
-          item.category === "Tea" ||
-          item.category === "Other";
+          item.category === "Wedangan" || item.category === "Minuman Lain";
+      } else if (menuFilter === "SNACK") {
+        matchesCat = item.category === "Snack";
+      }
 
       if (!matchesCat) return false;
 
@@ -169,7 +158,8 @@ function ReservasiContent() {
         const q = menuSearch.toLowerCase();
         return (
           item.name.toLowerCase().includes(q) ||
-          (item.description && item.description.toLowerCase().includes(q))
+          item.description.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q)
         );
       }
       return true;
@@ -179,33 +169,49 @@ function ReservasiContent() {
   const cartEntries = Object.entries(cart);
   const totalItemsCount = cartEntries.reduce((acc, [, qty]) => acc + qty, 0);
 
-  const formattedMenuOrderText =
-    cartEntries.length > 0
-      ? cartEntries.map(([item, qty]) => `${qty}x ${item}`).join(", ")
-      : "Pesan langsung di tempat saat tiba";
+  // Real-time calculation of total price
+  const totalPrice = useMemo(() => {
+    return cartEntries.reduce((total, [itemName, qty]) => {
+      const menuItem = MENU_ITEMS.find((m) => m.name === itemName);
+      return total + (menuItem ? menuItem.price * qty : 0);
+    }, 0);
+  }, [cartEntries]);
 
-  // CLEAN TEXT-BASED WHATSAPP FORMAT (ZERO ASTERISKS '*' AND ZERO WEIRD CORRUPTED SYMBOLS)
+  // Clean WhatsApp Message Formatting
   const generateBookingMessage = () => {
     const formattedMenuLines =
       cartEntries.length > 0
-        ? cartEntries.map(([item, qty]) => `- ${qty}x ${item}`).join("\n")
+        ? cartEntries
+            .map(([itemName, qty]) => {
+              const item = MENU_ITEMS.find((m) => m.name === itemName);
+              const priceText = item
+                ? ` (${formatRupiah(item.price)}/porsi = ${formatRupiah(item.price * qty)})`
+                : "";
+              return `- ${qty}x ${itemName}${priceText}`;
+            })
+            .join("\n")
         : "- Pesan langsung di tempat saat tiba";
 
+    const totalText =
+      totalPrice > 0 ? `\nEstimasi Total Harga: ${formatRupiah(totalPrice)}\n` : "";
+
     return (
-      `FORM RESERVASI MEJA & MENU — SEKARSULI COFFEE\n\n` +
+      `FORM RESERVASI MEJA & PESANAN — SEKARSULI COFFEE\n\n` +
       `Nama Pemesan: ${name.trim() || "-"}\n` +
       `No. WhatsApp: ${phone.trim() || "-"}\n` +
       `Tanggal Kunjungan: ${date || "Hari Ini / Segera"}\n` +
       `Waktu Kedatangan: ${time} WIB\n` +
       `Jumlah Tamu: ${guests}\n` +
       `Pilihan Area: ${selectedArea}\n\n` +
-      `Pesanan Menu Awal:\n${formattedMenuLines}\n\n` +
-      (notes.trim() ? `Catatan Khusus: ${notes.trim()}\n\n` : "") +
-      `Mohon konfirmasi ketersediaan meja dan sajian kami di Sekarsuli Coffee, Jl. Wonosari KM 8, Banguntapan, Bantul. Matur nuwun!`
+      `Pesanan Menu Awal:\n${formattedMenuLines}\n` +
+      totalText +
+      (notes.trim() ? `\nCatatan Khusus: ${notes.trim()}\n` : "") +
+      `\nMohon konfirmasi ketersediaan meja dan sajian kami di Sekarsuli Coffee, Jl. Wonosari KM 8, Banguntapan, Bantul. Matur nuwun!`
     );
   };
 
   const whatsappNumber = siteConfig.contact.whatsappNumber || "6287830228170";
+  const whatsappDisplay = siteConfig.contact.whatsappDisplay || "+62 878-3022-8170";
 
   const handleSendWhatsApp = () => {
     const msg = encodeURIComponent(generateBookingMessage());
@@ -216,14 +222,13 @@ function ReservasiContent() {
     e.preventDefault();
     setSubmitted(true);
 
-    // Smooth scroll to top of confirmation review card
+    // Smooth scroll to confirmation review card
     if (typeof window !== "undefined") {
       const cardEl = document.getElementById("reservation-card");
       if (cardEl) {
         cardEl.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
-    // Tidak langsung membuka WA, arahkan pengguna meninjau data terlebih dahulu
   };
 
   const handleCopySummary = async () => {
@@ -238,16 +243,15 @@ function ReservasiContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#071229] text-[#FAF5ED] flex flex-col selection:bg-[#C5A059] selection:text-[#0B1B3D]">
-      {/* Top Navigation Bar with Entrance Animation */}
+    <div className="min-h-screen bg-[#071229] text-[#FAF5ED] flex flex-col font-sans selection:bg-[#C5A059] selection:text-[#071229]">
+      {/* Top Floating Mini Header */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="sticky top-0 z-40 bg-[#0B1B3D]/95 backdrop-blur-md border-b border-[#C5A059]/25 py-3.5 sm:py-4 shadow-xl"
+        transition={{ duration: 0.5 }}
+        className="w-full bg-[#071229]/95 backdrop-blur-md border-b border-[#C5A059]/30 py-4 px-6 sticky top-0 z-50 shadow-md"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
-          {/* Logo Brand with Ivory Medallion */}
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/#hero" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-[#C5A059] bg-[#FAF5ED] shadow-sm p-1.5 flex items-center justify-center transition-transform group-hover:scale-105">
               <Image
@@ -268,7 +272,6 @@ function ReservasiContent() {
             </div>
           </Link>
 
-          {/* Back to Homepage Button */}
           <Link
             href="/#hero"
             className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full border border-[#C5A059]/50 text-[#FAF5ED] hover:text-[#0B1B3D] hover:bg-[#C5A059] text-xs font-cinzel font-semibold tracking-wider uppercase transition-all shadow-sm"
@@ -279,7 +282,7 @@ function ReservasiContent() {
         </div>
       </motion.header>
 
-      {/* Main Reservation Section with Rich Staggered Animations */}
+      {/* Main Reservation Section */}
       <main className="flex-1 py-10 sm:py-16 relative overflow-hidden">
         {/* Ambient Royal Gold Glow */}
         <div
@@ -288,7 +291,7 @@ function ReservasiContent() {
         />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
-          {/* Page Headline with Animation */}
+          {/* Page Headline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -312,9 +315,7 @@ function ReservasiContent() {
             </p>
           </motion.div>
 
-          {/* =========================================================================
-              MAIN ROYAL PARCHMENT CARD WITH ENTRANCE ANIMATION
-             ========================================================================= */}
+          {/* MAIN ROYAL PARCHMENT CARD */}
           <motion.div
             id="reservation-card"
             initial={{ opacity: 0, y: 35, scale: 0.98 }}
@@ -324,7 +325,7 @@ function ReservasiContent() {
           >
             <div className="absolute inset-3 border border-[#C5A059]/40 rounded-2xl pointer-events-none" />
 
-            {/* IF SUBMITTED: SHOW ON-SCREEN CONFIRMATION TICKET IMMEDIATELY */}
+            {/* IF SUBMITTED: SHOW CONFIRMATION REVIEW SCREEN BEFORE WHATSAPP DISPATCH */}
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -342,7 +343,7 @@ function ReservasiContent() {
                 </span>
 
                 <h2 className="font-cinzel text-2xl sm:text-3xl font-bold text-[#0B1B3D] mt-1 mb-2">
-                  Rincian Reservasi Anda
+                  Rincian Reservasi &amp; Pesanan Menu
                 </h2>
 
                 <p className="text-xs sm:text-sm text-[#605A55] max-w-md mx-auto mb-6 font-light">
@@ -374,21 +375,62 @@ function ReservasiContent() {
                   </div>
 
                   <div className="flex justify-between pb-2 border-b border-gray-100">
-                    <span className="text-[#605A55]">Area Pilihan:</span>
+                    <span className="text-[#605A55]">Pilihan Area:</span>
                     <span className="font-semibold text-[#0B1B3D] text-right">
                       {selectedArea}
                     </span>
                   </div>
 
-                  <div className="flex flex-col pt-1">
-                    <span className="text-[#605A55] mb-1">Pesanan Menu Awal:</span>
-                    <div className="bg-[#FAF5ED] p-3 rounded-xl border border-[#C5A059]/40 text-xs text-[#0B1B3D] font-medium leading-relaxed">
-                      {formattedMenuOrderText}
-                    </div>
+                  {/* Menu Breakdown Table */}
+                  <div className="pt-2">
+                    <span className="text-[#605A55] block mb-2 font-cinzel font-bold text-xs uppercase text-[#0B1B3D]">
+                      Rincian Pesanan Menu ({totalItemsCount} porsi):
+                    </span>
+
+                    {cartEntries.length > 0 ? (
+                      <div className="bg-[#FAF5ED] rounded-xl border border-[#C5A059]/40 overflow-hidden divide-y divide-[#C5A059]/20 text-xs">
+                        {cartEntries.map(([itemName, qty]) => {
+                          const item = MENU_ITEMS.find((m) => m.name === itemName);
+                          const unitPrice = item ? item.price : 0;
+                          const subtotal = unitPrice * qty;
+                          return (
+                            <div
+                              key={itemName}
+                              className="p-3 flex items-center justify-between gap-2"
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-[#8C6D37] font-bold">❖</span>
+                                <span className="font-medium text-[#0B1B3D] truncate">
+                                  {itemName}
+                                </span>
+                                <span className="text-[#605A55] shrink-0">
+                                  ({qty} × {formatRupiah(unitPrice)})
+                                </span>
+                              </div>
+                              <span className="font-bold text-[#0B1B3D] shrink-0 font-cinzel">
+                                {formatRupiah(subtotal)}
+                              </span>
+                            </div>
+                          );
+                        })}
+
+                        {/* Grand Total Row */}
+                        <div className="p-3 bg-[#EFE6D8] flex items-center justify-between font-bold text-sm text-[#0B1B3D]">
+                          <span>TOTAL ESTIMASI HARGA:</span>
+                          <span className="font-cinzel text-base text-[#8C6D37]">
+                            {formatRupiah(totalPrice)}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-[#FAF5ED] p-3 rounded-xl border border-[#C5A059]/40 text-xs text-[#605A55] italic">
+                        Tidak ada pesanan awal. Pesan langsung di tempat saat kedatangan.
+                      </div>
+                    )}
                   </div>
 
                   {notes && (
-                    <div className="flex justify-between pt-1 text-xs">
+                    <div className="flex justify-between pt-2 text-xs border-t border-gray-100">
                       <span className="text-[#605A55]">Catatan Khusus:</span>
                       <span className="font-light text-[#0B1B3D] italic text-right max-w-[220px]">
                         {notes}
@@ -405,7 +447,7 @@ function ReservasiContent() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white font-cinzel font-bold text-xs tracking-editorial uppercase shadow-lg hover:shadow-xl transition-all"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>KIRIM RESERVASI KE WHATSAPP</span>
+                    <span>KIRIM RESERVASI KE WHATSAPP ({whatsappDisplay})</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
 
@@ -438,7 +480,7 @@ function ReservasiContent() {
                 </div>
               </motion.div>
             ) : (
-              /* THE RESERVATION INPUT FORM WITH STAGGERED ANIMATIONS */
+              /* THE RESERVATION INPUT FORM */
               <form onSubmit={handleSubmit} className="relative z-10 space-y-8 sm:space-y-10">
                 {/* STEP 1: IDENTITAS */}
                 <motion.div
@@ -511,12 +553,12 @@ function ReservasiContent() {
                   <div className="flex items-center gap-2 mb-4 pb-2 border-b border-[#C5A059]/30">
                     <span className="text-[#C5A059] text-base">❖</span>
                     <h2 className="font-cinzel text-sm sm:text-base font-bold tracking-wider uppercase text-[#0B1B3D]">
-                      2. JADWAL KEDATANGAN &amp; JUMLAH TAMU
+                      2. JADWAL KEDATANGAN &amp; AREA
                     </h2>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                    {/* TANGGAL KUNJUNGAN DENGAN IKON KALENDER JELAS & KLIK */}
+                    {/* TANGGAL KUNJUNGAN */}
                     <div>
                       <label
                         htmlFor="res-date"
@@ -561,7 +603,7 @@ function ReservasiContent() {
                       </div>
                     </div>
 
-                    {/* JAM KEDATANGAN DENGAN IKON JAM */}
+                    {/* JAM KEDATANGAN */}
                     <div>
                       <label
                         htmlFor="res-time"
@@ -588,7 +630,7 @@ function ReservasiContent() {
                       </div>
                     </div>
 
-                    {/* JUMLAH TAMU DENGAN IKON USERS */}
+                    {/* JUMLAH TAMU */}
                     <div>
                       <label
                         htmlFor="res-guests"
@@ -617,55 +659,31 @@ function ReservasiContent() {
                     </div>
                   </div>
 
-                  {/* Seating Area Grid */}
+                  {/* Seating Area Selection: HANYA 1 PILIHAN EKSKLUSIF */}
                   <div className="mt-5">
                     <label className="block text-xs font-cinzel font-semibold uppercase text-[#0B1B3D] mb-2.5">
                       Pilihan Area Sekarsuli Coffee
                     </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {SEATING_AREAS.map((a) => {
-                        const isSelected = selectedArea === a.name;
-                        return (
-                          <div
-                            key={a.id}
-                            onClick={() => setSelectedArea(a.name)}
-                            className={`p-3.5 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-3 ${
-                              isSelected
-                                ? "bg-[#0B1B3D] text-[#FAF5ED] border-[#0B1B3D] shadow-sm"
-                                : "bg-white border-[#C5A059]/40 text-[#1B2430] hover:border-[#0B1B3D]"
-                            }`}
-                          >
-                            <span
-                              className={`mt-0.5 text-sm ${
-                                isSelected ? "text-[#C5A059]" : "text-[#8C6D37]"
-                              }`}
-                            >
-                              ❖
-                            </span>
-                            <div className="flex flex-col">
-                              <span
-                                className={`font-cinzel font-bold text-xs ${
-                                  isSelected ? "text-[#FAF5ED]" : "text-[#0B1B3D]"
-                                }`}
-                              >
-                                {a.name}
-                              </span>
-                              <span
-                                className={`text-[11px] font-light mt-0.5 ${
-                                  isSelected ? "text-[#FAF5ED]/70" : "text-[#605A55]"
-                                }`}
-                              >
-                                {a.desc}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
+                    <div className="p-4 rounded-2xl bg-[#0B1B3D] text-[#FAF5ED] border-2 border-[#C5A059] shadow-sm flex items-start gap-3">
+                      <span className="text-[#C5A059] text-base mt-0.5">❖</span>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
+                          <span className="font-cinzel font-bold text-sm text-[#FAF5ED]">
+                            {SEATING_AREAS[0].name}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full bg-[#C5A059] text-[#0B1B3D] text-[9px] font-cinzel font-bold uppercase">
+                            AREA UTAMA
+                          </span>
+                        </div>
+                        <p className="text-xs text-[#FAF5ED]/80 font-light mt-1">
+                          {SEATING_AREAS[0].desc}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
 
-                {/* STEP 3: PILIH MENU MAKANAN (44 VERIFIED ITEMS, 100% EMPTY INITIALLY) */}
+                {/* STEP 3: PILIH MENU & LIVE PRICE CALCULATION */}
                 <motion.div
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -678,14 +696,21 @@ function ReservasiContent() {
                         3. PILIHAN MENU PESANAN AWAL
                       </h2>
                     </div>
-                    <span className="text-xs font-cinzel font-bold text-[#8C6D37]">
-                      {totalItemsCount} Porsi Terpilih
-                    </span>
+                    <div className="text-right">
+                      <span className="text-xs font-cinzel font-bold text-[#8C6D37] block">
+                        {totalItemsCount} Porsi Terpilih
+                      </span>
+                      {totalPrice > 0 && (
+                        <span className="text-xs font-bold text-[#0B1B3D] font-cinzel">
+                          {formatRupiah(totalPrice)}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <p className="text-xs text-[#605A55] mb-4 font-light">
                     Pilih makanan dan minuman yang ingin disiapkan terlebih dahulu
-                    saat Anda tiba di Sekarsuli Coffee (opsional):
+                    saat Anda tiba di Sekarsuli Coffee. Rincian harga dan total estimasi akan dihitung otomatis.
                   </p>
 
                   {/* Search & Category Filter */}
@@ -705,11 +730,12 @@ function ReservasiContent() {
                       {(
                         [
                           "SEMUA",
-                          "SNACK",
-                          "MINUMAN",
+                          "MENU KHAS & BAKMI",
                           "COFFEE",
                           "NON COFFEE",
-                          "REFRESHING & TEA",
+                          "TEA & REFRESHING",
+                          "WEDANGAN & MINUMAN",
+                          "SNACK",
                         ] as MenuFilterCategory[]
                       ).map((cat) => (
                         <button
@@ -728,37 +754,94 @@ function ReservasiContent() {
                     </div>
                   </div>
 
-                  {/* 44 Menu Items Selection Chips */}
-                  <div className="max-h-60 overflow-y-auto p-3 rounded-2xl bg-white border border-[#C5A059]/30 flex flex-wrap gap-2">
+                  {/* Interactive Menu Items Grid with Photos, Descriptions & Prices */}
+                  <div className="max-h-96 overflow-y-auto p-3 rounded-2xl bg-white border border-[#C5A059]/40 divide-y divide-gray-100 shadow-inner">
                     {visibleMenuItems.map((item) => {
                       const qty = cart[item.name] || 0;
                       const isSelected = qty > 0;
                       return (
-                        <button
+                        <div
                           key={item.id}
-                          type="button"
-                          onClick={() => addItemToCart(item.name)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 border ${
-                            isSelected
-                              ? "bg-[#0B1B3D] text-[#FAF5ED] border-[#0B1B3D] shadow-sm font-semibold"
-                              : "bg-[#FAF5ED] text-[#1B2430] border-[#C5A059]/40 hover:border-[#0B1B3D]"
+                          className={`p-3 transition-colors flex items-center justify-between gap-3 ${
+                            isSelected ? "bg-[#FAF5ED]/80" : "hover:bg-gray-50/60"
                           }`}
                         >
-                          <span className="text-[#C5A059] font-bold">
-                            {isSelected ? `${qty}x` : "+"}
-                          </span>
-                          <span>{item.name}</span>
-                        </button>
+                          {/* Left: Thumbnail & Info */}
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 border border-[#C5A059]/50 bg-[#0B1B3D] relative">
+                              <Image
+                                src={item.image || "/images/products/espresso.jpg"}
+                                alt={item.name}
+                                width={56}
+                                height={56}
+                                loading="lazy"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-cinzel text-xs sm:text-sm font-bold text-[#0B1B3D] truncate">
+                                  {item.name}
+                                </span>
+                                <span className="px-1.5 py-0.2 rounded-full bg-[#0B1B3D] text-[#C5A059] text-[8px] font-cinzel font-semibold uppercase">
+                                  {item.category}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-[#605A55] line-clamp-1 font-light mt-0.5">
+                                {item.description}
+                              </p>
+                              <p className="font-cinzel text-xs font-bold text-[#8C6D37] mt-0.5">
+                                {formatRupiah(item.price)}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Right: Quantity Counter */}
+                          <div className="shrink-0 flex items-center gap-1.5">
+                            {isSelected ? (
+                              <div className="flex items-center gap-1.5 bg-[#EFE6D8] p-1 rounded-full border border-[#C5A059]/60">
+                                <button
+                                  type="button"
+                                  onClick={() => decrementItemInCart(item.name)}
+                                  className="w-6 h-6 rounded-full bg-white text-[#0B1B3D] flex items-center justify-center hover:bg-[#0B1B3D] hover:text-[#FAF5ED] transition-colors shadow-xs"
+                                  aria-label="Kurangi porsi"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                                <span className="w-5 text-center font-cinzel font-bold text-xs text-[#0B1B3D]">
+                                  {qty}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => addItemToCart(item.name)}
+                                  className="w-6 h-6 rounded-full bg-[#0B1B3D] text-[#FAF5ED] flex items-center justify-center hover:bg-[#C5A059] hover:text-[#0B1B3D] transition-colors shadow-xs"
+                                  aria-label="Tambah porsi"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => addItemToCart(item.name)}
+                                className="px-3 py-1.5 rounded-full border border-[#C5A059]/70 bg-white text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-[#FAF5ED] text-xs font-cinzel font-bold transition-all shadow-xs"
+                              >
+                                + Tambah
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
 
-                  {/* Cart Summary List (Only appears if items are actually selected) */}
+                  {/* Cart Summary List with Prices */}
                   {cartEntries.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="mt-4 p-4 rounded-2xl bg-[#EFE6D8] border border-[#C5A059]/50 overflow-hidden"
+                      className="mt-4 p-4 rounded-2xl bg-[#EFE6D8] border border-[#C5A059]/60 overflow-hidden"
                     >
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs font-cinzel font-bold text-[#0B1B3D] uppercase tracking-wider">
@@ -767,53 +850,72 @@ function ReservasiContent() {
                         <button
                           type="button"
                           onClick={() => setCart({})}
-                          className="text-[11px] text-red-700 hover:underline"
+                          className="text-[11px] text-red-700 hover:underline font-medium"
                         >
                           Reset Pilihan
                         </button>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                        {cartEntries.map(([itemName, quantity]) => (
-                          <div
-                            key={itemName}
-                            className="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-[#C5A059]/30 shadow-xs"
-                          >
-                            <span className="font-medium text-[#0B1B3D] truncate max-w-[160px]">
-                              {itemName}
-                            </span>
+                        {cartEntries.map(([itemName, quantity]) => {
+                          const item = MENU_ITEMS.find((m) => m.name === itemName);
+                          const subtotal = item ? item.price * quantity : 0;
+                          return (
+                            <div
+                              key={itemName}
+                              className="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-[#C5A059]/40 shadow-xs"
+                            >
+                              <div className="min-w-0 pr-2">
+                                <p className="font-semibold text-[#0B1B3D] truncate max-w-[140px]">
+                                  {itemName}
+                                </p>
+                                <p className="text-[10px] text-[#8C6D37] font-cinzel font-bold">
+                                  {formatRupiah(subtotal)}
+                                </p>
+                              </div>
 
-                            <div className="flex items-center gap-2">
-                              <button
-                                type="button"
-                                onClick={() => decrementItemInCart(itemName)}
-                                className="w-6 h-6 rounded-full bg-[#FAF5ED] border border-[#C5A059]/60 text-[#0B1B3D] flex items-center justify-center hover:bg-[#0B1B3D] hover:text-[#FAF5ED] transition-colors"
-                                aria-label="Kurang satu"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                              <span className="font-bold text-[#0B1B3D] w-4 text-center">
-                                {quantity}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => addItemToCart(itemName)}
-                                className="w-6 h-6 rounded-full bg-[#FAF5ED] border border-[#C5A059]/60 text-[#0B1B3D] flex items-center justify-center hover:bg-[#0B1B3D] hover:text-[#FAF5ED] transition-colors"
-                                aria-label="Tambah satu"
-                              >
-                                <Plus className="w-3 h-3" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => removeItemFromCart(itemName)}
-                                className="text-red-600 hover:text-red-800 ml-1 p-1"
-                                aria-label="Hapus"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={() => decrementItemInCart(itemName)}
+                                  className="w-5 h-5 rounded-full bg-[#FAF5ED] border border-[#C5A059]/60 text-[#0B1B3D] flex items-center justify-center hover:bg-[#0B1B3D] hover:text-[#FAF5ED] transition-colors"
+                                  aria-label="Kurang satu"
+                                >
+                                  <Minus className="w-2.5 h-2.5" />
+                                </button>
+                                <span className="font-bold text-[#0B1B3D] w-4 text-center">
+                                  {quantity}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => addItemToCart(itemName)}
+                                  className="w-5 h-5 rounded-full bg-[#FAF5ED] border border-[#C5A059]/60 text-[#0B1B3D] flex items-center justify-center hover:bg-[#0B1B3D] hover:text-[#FAF5ED] transition-colors"
+                                  aria-label="Tambah satu"
+                                >
+                                  <Plus className="w-2.5 h-2.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => removeItemFromCart(itemName)}
+                                  className="text-red-600 hover:text-red-800 ml-1 p-0.5"
+                                  aria-label="Hapus"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
+                      </div>
+
+                      {/* Total Estimasi Footer */}
+                      <div className="mt-3 pt-3 border-t border-[#C5A059]/40 flex items-center justify-between text-xs sm:text-sm">
+                        <span className="font-cinzel font-bold text-[#0B1B3D]">
+                          TOTAL ESTIMASI HARGA:
+                        </span>
+                        <span className="font-cinzel font-bold text-base text-[#8C6D37]">
+                          {formatRupiah(totalPrice)}
+                        </span>
                       </div>
                     </motion.div>
                   )}
@@ -834,20 +936,31 @@ function ReservasiContent() {
                   <textarea
                     id="res-notes"
                     rows={2}
-                    placeholder="Contoh: Meja dekat stopkontak, ada rombongan lansia, request dekorasi ultah sederhana..."
+                    placeholder="Contoh: Meja dekat stopkontak, ada rombongan keluarga besar, request sajian tidak pedas..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-white border border-[#C5A059]/50 text-xs sm:text-sm text-[#0B1B3D] placeholder-[#605A55]/50 focus:border-[#0B1B3D] focus:outline-none transition-all shadow-xs"
                   />
                 </motion.div>
 
-                {/* SUBMIT BUTTON */}
+                {/* SUBMIT BUTTON: DIRECTS TO CONFIRMATION REVIEW SCREEN FIRST */}
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  className="pt-4 border-t border-[#C5A059]/30 flex flex-col sm:flex-row items-center justify-end gap-4"
+                  className="pt-4 border-t border-[#C5A059]/30 flex flex-col sm:flex-row items-center justify-between gap-4"
                 >
+                  <div className="text-xs text-[#605A55]">
+                    {totalItemsCount > 0 ? (
+                      <span>
+                        {totalItemsCount} porsi menu • Estimasi:{" "}
+                        <strong className="text-[#0B1B3D]">{formatRupiah(totalPrice)}</strong>
+                      </span>
+                    ) : (
+                      <span>Belum ada pesanan awal dipilih (opsional).</span>
+                    )}
+                  </div>
+
                   <button
                     type="submit"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#0B1B3D] hover:bg-[#C5A059] text-[#FAF5ED] hover:text-[#0B1B3D] font-cinzel font-bold text-xs tracking-editorial uppercase transition-all duration-300 shadow-xl hover:scale-105"

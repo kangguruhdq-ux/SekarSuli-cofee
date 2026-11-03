@@ -54,12 +54,32 @@
     contain-intrinsic-size: 1px 700px;
   }
 
-  /* Ultra-lightweight zero-lag accordion */
+  /* Ultra-lightweight zero-lag accordion (GPU composited & layout isolated) */
+  .accordion-row-container {
+    contain: layout paint;
+  }
+
+  .accordion-collapse {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: max-height 0.22s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.18s ease-out;
+    will-change: max-height, opacity;
+  }
+
+  .accordion-collapse.open {
+    max-height: 450px;
+    opacity: 1;
+  }
+
+  /* Backward compatible alias */
   .accordion-grid {
     display: grid;
     grid-template-rows: 0fr;
     opacity: 0;
-    transition: grid-template-rows 160ms cubic-bezier(0, 0, 0.2, 1), opacity 140ms ease-out;
+    transform: translateZ(0);
+    transition: grid-template-rows 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.18s ease-out;
     will-change: grid-template-rows, opacity;
   }
 

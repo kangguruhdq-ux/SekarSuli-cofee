@@ -52,10 +52,11 @@ export function SiteFooter() {
                 href={siteConfig.social.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full border border-[#C5A059]/40 bg-[#0B1B3D] hover:border-[#C5A059] hover:bg-[#C5A059] hover:text-[#0B1B3D] transition-all flex items-center justify-center text-[#FAF5ED]"
-                aria-label="Instagram Sekarsuli"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#C5A059]/40 bg-[#0B1B3D] hover:border-[#C5A059] hover:bg-[#C5A059] hover:text-[#0B1B3D] transition-all text-xs font-sans text-[#FAF5ED]"
+                aria-label="Instagram Sekarsuli Coffee"
               >
-                <InstagramIcon className="w-4 h-4" />
+                <InstagramIcon className="w-4 h-4 text-[#C5A059]" />
+                <span className="font-medium text-[#DFBA75]">@sekarsulicoffee</span>
               </a>
             </div>
           </div>
